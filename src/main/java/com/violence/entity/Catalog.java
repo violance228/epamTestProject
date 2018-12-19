@@ -1,9 +1,11 @@
 package com.violence.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
-public class Catalog {
+public class Catalog implements DomainObject<Catalog> {
     private Long id;
     private Date dateFrom;
     private Date dateTo;
@@ -76,5 +78,10 @@ public class Catalog {
                 ", user=" + user +
                 ", book=" + book +
                 '}';
+    }
+
+    @Override
+    public Catalog getObject(ResultSet resultSet) throws SQLException {
+        return null;
     }
 }

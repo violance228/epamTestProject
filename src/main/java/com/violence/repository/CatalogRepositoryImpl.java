@@ -26,7 +26,7 @@ public class CatalogRepositoryImpl implements CatalogRepository {
     }
 
     @Override
-    public List<Catalog> getAll(Catalog catalog) {
+    public List<Catalog> getAll() {
         return null;
     }
 }

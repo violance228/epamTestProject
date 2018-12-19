@@ -1,9 +1,11 @@
 package com.violence.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Set;
 
-public class Book {
+public class Book implements DomainObject<Book> {
     private Long id;
     private String name;
     private Integer size;
@@ -65,5 +67,10 @@ public class Book {
                 ", size=" + size +
                 ", lang='" + lang + '\'' +
                 '}';
+    }
+
+    @Override
+    public Book getObject(ResultSet resultSet) throws SQLException {
+        return null;
     }
 }

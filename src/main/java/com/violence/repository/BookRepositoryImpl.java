@@ -26,7 +26,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getAll(Book book) {
+    public List<Book> getAll() {
         return null;
     }
 }

@@ -1,9 +1,11 @@
 package com.violence.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Set;
 
-public class Author {
+public class Author implements DomainObject<Author> {
     private Long id;
     private String name;
     private String surname;
@@ -74,5 +76,10 @@ public class Author {
                 ", surname='" + surname + '\'' +
                 ", country='" + country + '\'' +
                 '}';
+    }
+
+    @Override
+    public Author getObject(ResultSet resultSet) throws SQLException {
+        return null;
     }
 }

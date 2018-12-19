@@ -1,10 +1,14 @@
 package com.violence.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
-public class User {
+public class User implements DomainObject<User> {
     private Long id;
     private String login;
+    private String name;
+    private String surname;
     private String password;
     private String email;
     private String phone;
@@ -49,6 +53,22 @@ public class User {
         this.phone = phone;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,5 +95,20 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    @Override
+    public User getObject(ResultSet resultSet) throws SQLException {
+        User user = new User();
+
+        user.setId(resultSet.getLong("id"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setLogin(resultSet.getString("login"));
+        user.setPassword(resultSet.getString("password"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPhone(resultSet.getString("phone"));
+
+        return user;
     }
 }

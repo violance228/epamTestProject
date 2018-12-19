@@ -1,8 +1,10 @@
 package com.violence.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
-public class AuthorBooks {
+public class AuthorBooks implements DomainObject<AuthorBooks> {
     private Long authorId;
     private Long bookId;
 
@@ -34,5 +36,10 @@ public class AuthorBooks {
     @Override
     public int hashCode() {
         return Objects.hash(authorId, bookId);
+    }
+
+    @Override
+    public AuthorBooks getObject(ResultSet resultSet) throws SQLException {
+        return null;
     }
 }

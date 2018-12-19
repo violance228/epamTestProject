@@ -6,16 +6,17 @@ import java.sql.SQLException;
 
 public class DataSourceConn {
 
-    private static final String url = "jdbc:postgresql://localhost/dvdrental";
+    private static final String url = "jdbc:postgresql://localhost:5432/postgres";
     private static final String user = "postgres";
-    private static final String password = "<add your password>";
+    private static final String password = "postgres";
 
     public static Connection getPostgreSqlConnection() {
         Connection connection = null;
         try {
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("connect to DB");
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;

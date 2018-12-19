@@ -26,7 +26,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public List<Author> getAll(Author author) {
+    public List<Author> getAll() {
         return null;
     }
 }

@@ -1,13 +1,16 @@
 package com.violence.repository;
 
 import com.violence.entity.AuthorBooks;
+import com.violence.util.DataSourceConn;
 
+import java.sql.Statement;
 import java.util.List;
 
 public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
+
     @Override
     public boolean save(AuthorBooks authorBooks) {
-
+//        Statement statement = DataSourceConn.getPostgreSqlConnection();
         return false;
     }
 
@@ -27,7 +30,7 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
     }
 
     @Override
-    public List<AuthorBooks> getAll(AuthorBooks authorBooks) {
+    public List<AuthorBooks> getAll() {
         return null;
     }
 }
