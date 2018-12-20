@@ -1,5 +1,6 @@
 package com.violence.repository;
 
+import com.violence.entity.Book;
 import com.violence.entity.User;
 import com.violence.util.DataSourceConn;
 import com.violence.util.api.EntityAdapter;
@@ -29,17 +30,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getById(Long id) throws SQLException {
-        PreparedStatement statement = DataSourceConn.getPostgreSqlConnection().prepareStatement("SELECT * FROM users WHERE id = ?");
-        statement.setLong(1, id);
-        ResultSet resultSet = statement.executeQuery();
-        return new EntityAdapter<User>().getObjectFromResultSet(new User(), resultSet);
+    public User getById(Long id) throws SQLException, NoSuchMethodException {
+        return null;
     }
 
     @Override
-    public List<User> getAll() throws SQLException {
-        Statement statement = DataSourceConn.getPostgreSqlConnection().createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
-        return new EntityAdapter<User>().getListObjectFromResultSet(new User(), resultSet);
+    public Book getByIdd(Long id) {
+        String sql = "SELECT * FROM ats WHERE ats_id = ?";
+        return new EntityAdapter<Book>().getObject(new Book(), sql, id);
+    }
+
+    @Override
+    public List<User> getAll() {
+        String sql = "SELECT * FROM goods";
+        return new EntityAdapter<User>().getListObject(new User(), sql);
     }
 }

@@ -1,5 +1,7 @@
 package com.violence.entity;
 
+import com.violence.repository.UserRepositoryImpl;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -12,6 +14,7 @@ public class User implements DomainObject<User> {
     private String password;
     private String email;
     private String phone;
+    private Book ats;
 
     public Long getId() {
         return id;
@@ -69,6 +72,14 @@ public class User implements DomainObject<User> {
         this.surname = surname;
     }
 
+    public Book getAts() {
+        return ats;
+    }
+
+    public void setAts(Book ats) {
+        this.ats = ats;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,14 +112,13 @@ public class User implements DomainObject<User> {
     public User getObject(ResultSet resultSet) throws SQLException {
         User user = new User();
 
-        user.setId(resultSet.getLong("id"));
+        user.setId(resultSet.getLong("goods_id"));
         user.setName(resultSet.getString("name"));
-        user.setSurname(resultSet.getString("surname"));
-        user.setLogin(resultSet.getString("login"));
-        user.setPassword(resultSet.getString("password"));
-        user.setEmail(resultSet.getString("email"));
-        user.setPhone(resultSet.getString("phone"));
-
+        user.setLogin(resultSet.getString("registration_code"));
+        user.setPassword(resultSet.getString("bar_code"));
+        user.setEmail(resultSet.getString("contact_manager"));
+        user.setPhone(resultSet.getString("morion_code"));
+        user.setAts(new UserRepositoryImpl().getByIdd(resultSet.getLong("ats")));
         return user;
     }
 }

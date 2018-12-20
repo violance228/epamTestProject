@@ -8,10 +8,26 @@ import java.util.Set;
 public class Book implements DomainObject<Book> {
     private Long id;
     private String name;
-    private Integer size;
+    private String size;
     private String lang;
     private Boolean isUse;
     private Set<Author> authors;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean getUse() {
+        return isUse;
+    }
+
+    public void setUse(Boolean use) {
+        isUse = use;
+    }
 
     public String getName() {
         return name;
@@ -21,11 +37,11 @@ public class Book implements DomainObject<Book> {
         this.name = name;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -71,6 +87,14 @@ public class Book implements DomainObject<Book> {
 
     @Override
     public Book getObject(ResultSet resultSet) throws SQLException {
-        return null;
+        Book book = new Book();
+
+        book.setId(resultSet.getLong("ats_id"));
+        book.setName(resultSet.getString("ats_code"));
+        book.setSize(resultSet.getString("name"));
+        book.setLang(resultSet.getString("parent_id"));
+//        book.setUse(resultSet.getBoolean("password"));
+
+        return book;
     }
 }

@@ -82,6 +82,12 @@ public class Catalog implements DomainObject<Catalog> {
 
     @Override
     public Catalog getObject(ResultSet resultSet) throws SQLException {
-        return null;
+        Catalog catalog = new Catalog();
+
+        catalog.setId(resultSet.getLong("id"));
+        catalog.setDateFrom(resultSet.getDate("date_from"));
+        catalog.setDateTo(resultSet.getDate("date_to"));
+
+        return catalog;
     }
 }

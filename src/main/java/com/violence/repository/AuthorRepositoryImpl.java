@@ -1,7 +1,13 @@
 package com.violence.repository;
 
 import com.violence.entity.Author;
+import com.violence.util.DataSourceConn;
+import com.violence.util.api.EntityAdapter;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class AuthorRepositoryImpl implements AuthorRepository {
@@ -22,11 +28,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
     @Override
     public Author getById(Long id) {
-        return null;
+        String sql = "";
+        return new EntityAdapter<Author>().getObject(new Author(), sql, id);
     }
 
     @Override
     public List<Author> getAll() {
-        return null;
+        String sql = "";
+        return new EntityAdapter<Author>().getListObject(new Author(), sql);
     }
 }

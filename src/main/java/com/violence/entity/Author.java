@@ -80,6 +80,13 @@ public class Author implements DomainObject<Author> {
 
     @Override
     public Author getObject(ResultSet resultSet) throws SQLException {
-        return null;
+        Author author = new Author();
+
+        author.setId(resultSet.getLong("id"));
+        author.setName(resultSet.getString("name"));
+        author.setSurname(resultSet.getString("surname"));
+        author.setCountry(resultSet.getString("login"));
+
+        return author;
     }
 }
