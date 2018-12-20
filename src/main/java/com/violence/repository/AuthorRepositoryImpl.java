@@ -1,6 +1,8 @@
 package com.violence.repository;
 
 import com.violence.entity.Author;
+import com.violence.util.DataSourceConn;
+import com.violence.util.api.EntityAdapter;
 
 import java.util.List;
 
@@ -22,11 +24,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
     @Override
     public Author getById(Long id) {
-        return null;
+        String sql = "";
+        return new EntityAdapter().getObject(new Author(), sql, id);
     }
 
     @Override
     public List<Author> getAll() {
-        return null;
+        String sql = "";
+        return new EntityAdapter().getListObject(new Author(), sql);
     }
 }

@@ -10,7 +10,6 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Override
     public boolean save(AuthorBooks authorBooks) {
-//        Statement statement = DataSourceConn.getPostgreSqlConnection();
         return false;
     }
 

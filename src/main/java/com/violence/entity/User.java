@@ -101,13 +101,13 @@ public class User implements DomainObject<User> {
     public User getObject(ResultSet resultSet) throws SQLException {
         User user = new User();
 
-        user.setId(resultSet.getLong("id"));
-        user.setName(resultSet.getString("name"));
-        user.setSurname(resultSet.getString("surname"));
+        user.setId(resultSet.getLong("user_id"));
+        user.setName(resultSet.getString("user_name"));
         user.setLogin(resultSet.getString("login"));
         user.setPassword(resultSet.getString("password"));
         user.setEmail(resultSet.getString("email"));
         user.setPhone(resultSet.getString("phone"));
+        user.setSurname(resultSet.getString("user_surname"));
 
         return user;
     }

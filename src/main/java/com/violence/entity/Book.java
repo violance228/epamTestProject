@@ -13,6 +13,32 @@ public class Book implements DomainObject<Book> {
     private Boolean isUse;
     private Set<Author> authors;
 
+    public Book(Long id, String name, Integer size, String lang, Boolean isUse) {
+        this.id = id;
+        this.name = name;
+        this.size = size;
+        this.lang = lang;
+        this.isUse = isUse;
+    }
+
+    public Book() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean getUse() {
+        return isUse;
+    }
+
+    public void setUse(Boolean use) {
+        isUse = use;
+    }
+
     public String getName() {
         return name;
     }
@@ -71,6 +97,14 @@ public class Book implements DomainObject<Book> {
 
     @Override
     public Book getObject(ResultSet resultSet) throws SQLException {
-        return null;
+        Book book = new Book();
+
+        book.setId(resultSet.getLong("ats_id"));
+        book.setName(resultSet.getString("ats_code"));
+        book.setSize(resultSet.getInt("name"));
+        book.setLang(resultSet.getString("parent_id"));
+        book.setUse(resultSet.getBoolean("is_use"));
+
+        return book;
     }
 }
