@@ -1,36 +1,51 @@
 package com.violence.repository;
 
 import com.violence.entity.Author;
-import com.violence.util.DataSourceConn;
 import com.violence.util.api.EntityAdapter;
+import com.violence.util.api.EntityAdapterImpl;
 
 import java.util.List;
 
 public class AuthorRepositoryImpl implements AuthorRepository {
+
+    private EntityAdapter entityAdapter = new EntityAdapterImpl();
+
     @Override
-    public boolean save(Author author) {
-        return false;
+    public void save(Author author) {
+        String sql = "INSERT INTO authors (author_id, author_name, author_surname, country) VALUES " + author.getId();
+        entityAdapter.insert(sql);
     }
 
     @Override
-    public boolean edit(Author author) {
-        return false;
+    public void edit(Author author) {
+
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public void delete(Long id) {
+
     }
 
     @Override
     public Author getById(Long id) {
-        String sql = "";
-        return new EntityAdapter().getObject(new Author(), sql, id);
+        String sql = "SELECT " +
+                "authors.* " +
+                "FROM authors " +
+                "WHERE authors.authors_id = ?";
+        return entityAdapter.getObject(new Author(), sql, id);
     }
 
     @Override
     public List<Author> getAll() {
-        String sql = "";
-        return new EntityAdapter().getListObject(new Author(), sql);
+        String sql = "SELECT * " +
+                    "FROM authors ";
+        return entityAdapter.getListObject(new Author(), sql);
+    }
+
+    @Override
+    public void saveList(List<Author> authors) {
+        String sql = "INSERT INTO authors (author_id, author_name, author_surname, country) VALUES "
+                + entityAdapter.prepareObjectToInsert(authors);
+        entityAdapter.insert(sql);
     }
 }

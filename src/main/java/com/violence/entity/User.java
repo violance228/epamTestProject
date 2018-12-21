@@ -88,13 +88,13 @@ public class User implements DomainObject<User> {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return " ( " + id + ", \'" +
+                name + "\', \'" +
+                surname + "\', \'" +
+                login + "\', \'" +
+                password + "\', \'" +
+                email + "\', \'" +
+                phone + "\' )";
     }
 
     @Override

@@ -2,35 +2,46 @@ package com.violence.repository;
 
 import com.violence.entity.User;
 import com.violence.util.api.EntityAdapter;
+import com.violence.util.api.EntityAdapterImpl;
 
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
 
+    private EntityAdapter entityAdapter = new EntityAdapterImpl();
+
     @Override
-    public boolean save(User user) {
-        return false;
+    public void save(User user) {
+        String sql = "INSERT INTO users (user_id, user_name, user_surname, login, password, email, phone) VALUES " + user.getId();
+        entityAdapter.insert(sql);
     }
 
     @Override
-    public boolean edit(User user) {
-        return false;
+    public void edit(User user) {
+
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public void delete(Long id) {
+
     }
 
     @Override
     public User getById(Long id) {
-        String sql = "SELECT * FROM user WHERE user_id = ?";
-        return new EntityAdapter().getObject(new User(), sql, id);
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        return entityAdapter.getObject(new User(), sql, id);
     }
 
     @Override
     public List<User> getAll() {
-        String sql = "SELECT * FROM user";
-        return new EntityAdapter().getListObject(new User(), sql);
+        String sql = "SELECT * FROM users";
+        return entityAdapter.getListObject(new User(), sql);
+    }
+
+    @Override
+    public void saveList(List<User> users) {
+        String sql = "INSERT INTO users (user_id, user_name, user_surname, login, password, email, phone) VALUES "
+                + entityAdapter.prepareObjectToInsert(users);
+        entityAdapter.insert(sql);
     }
 }

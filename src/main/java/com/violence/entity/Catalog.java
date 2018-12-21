@@ -71,13 +71,11 @@ public class Catalog implements DomainObject<Catalog> {
 
     @Override
     public String toString() {
-        return "Catalog{" +
-                "id=" + id +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
-                ", user=" + user +
-                ", book=" + book +
-                '}';
+        return " ( " + id + ", \'" +
+                dateFrom + "\', \'" +
+                dateTo + "\', \'" +
+                user.getId() + "\', \'" +
+                book.getId() +  "\' )";
     }
 
     @Override

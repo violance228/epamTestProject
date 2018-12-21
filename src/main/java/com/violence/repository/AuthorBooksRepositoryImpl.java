@@ -32,4 +32,9 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
     public List<AuthorBooks> getAll() {
         return null;
     }
+
+    @Override
+    public void saveList(List<AuthorBooks> authorBooks) {
+
+    }
 }

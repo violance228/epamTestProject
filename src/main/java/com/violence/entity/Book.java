@@ -1,5 +1,7 @@
 package com.violence.entity;
 
+import com.violence.util.api.EntityAdapterImpl;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -88,22 +90,23 @@ public class Book implements DomainObject<Book> {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "name='" + name + '\'' +
-                ", size=" + size +
-                ", lang='" + lang + '\'' +
-                '}';
+        return " ( " + id + ", \'" +
+                name + "\', \'" +
+                size + "\', \'" +
+                lang + "\', \'" +
+                isUse +  "\' )";
     }
 
     @Override
     public Book getObject(ResultSet resultSet) throws SQLException {
         Book book = new Book();
 
-        book.setId(resultSet.getLong("ats_id"));
-        book.setName(resultSet.getString("ats_code"));
-        book.setSize(resultSet.getInt("name"));
-        book.setLang(resultSet.getString("parent_id"));
+        book.setId(resultSet.getLong("book_id"));
+        book.setName(resultSet.getString("book_name"));
+        book.setSize(resultSet.getInt("size"));
+        book.setLang(resultSet.getString("lang"));
         book.setUse(resultSet.getBoolean("is_use"));
+//        book.setAuthors(new EntityAdapterImpl().getSetObjectFromResultSet(new Author(), "author_book_book_id" , book.getId(), resultSet));
 
         return book;
     }

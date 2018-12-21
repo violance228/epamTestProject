@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DataSourceConn {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String url = "jdbc:postgresql://192.200.100.160:5432/epam_project";
     private static final String user = "postgres";
     private static final String password = "postgres";
 

@@ -12,6 +12,16 @@ public class Author implements DomainObject<Author> {
     private String country;
     private Set<Book> books;
 
+    public Author(Long id, String name, String surname, String country) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.country = country;
+    }
+
+    public Author() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -70,22 +80,20 @@ public class Author implements DomainObject<Author> {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", country='" + country + '\'' +
-                '}';
+        return " ( " + id + ", \'" +
+                name + "\', \'" +
+                surname + "\', \'" +
+                country + "\' )";
     }
 
     @Override
     public Author getObject(ResultSet resultSet) throws SQLException {
         Author author = new Author();
 
-        author.setId(resultSet.getLong("id"));
-        author.setName(resultSet.getString("name"));
-        author.setSurname(resultSet.getString("surname"));
-        author.setCountry(resultSet.getString("login"));
+        author.setId(resultSet.getLong("author_id"));
+        author.setName(resultSet.getString("author_name"));
+        author.setSurname(resultSet.getString("author_surname"));
+        author.setCountry(resultSet.getString("country"));
 
         return author;
     }
