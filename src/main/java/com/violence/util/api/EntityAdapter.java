@@ -15,11 +15,12 @@ import java.util.Set;
 
 public interface EntityAdapter {
     <T> T getObjectFromResultSet(T t, ResultSet resultSet);
-    <T> T getObject(T t, String sql, Long id);
+    <T> T getObject(T t, String sql, String id);
     <T> T getObject(T t, String sql, Map<Integer, String> params);
     <T> List<T> getListObject(T t, String sql);
     <T> List<T> getListObject(T t, String sql, Map<Integer, String> params);
     <T> Set<T> getSetObjectFromResultSet(T t, String fieldName, Long id, ResultSet resultSet);
     void insert(String sql);
+    void update(String sql, Long id);
     <T> String prepareObjectToInsert(List<T> authors);
 }

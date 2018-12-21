@@ -1,26 +1,22 @@
 package com.violence.repository;
 
 import com.violence.entity.AuthorBooks;
-import com.violence.util.DataSourceConn;
 
-import java.sql.Statement;
 import java.util.List;
 
 public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Override
-    public boolean save(AuthorBooks authorBooks) {
-        return false;
+    public void save(AuthorBooks authorBooks) {
     }
 
     @Override
-    public boolean edit(AuthorBooks authorBooks) {
-        return false;
+    public void edit(AuthorBooks authorBooks) {
+
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public void delete(Long id) {
     }
 
     @Override

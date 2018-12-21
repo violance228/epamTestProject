@@ -18,7 +18,10 @@ public class CatalogRepositoryImpl implements CatalogRepository {
 
     @Override
     public void edit(Catalog catalog) {
-
+        String sql = "UPDATE users " +
+                "SET " + catalog.getFieldVsValue() +
+                " WHERE CustomerID = ?";
+        entityAdapter.update(sql, catalog.getId());
     }
 
     @Override

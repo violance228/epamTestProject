@@ -98,6 +98,17 @@ public class User implements DomainObject<User> {
     }
 
     @Override
+    public String getFieldVsValue() {
+        return  "id = '" + id + '\'' +
+                ", login = '" + login + '\'' +
+                ", name = '" + name + '\'' +
+                ", surname = '" + surname + '\'' +
+                ", password = '" + password + '\'' +
+                ", email = '" + email + '\'' +
+                ", phone = '" + phone + '\'';
+    }
+
+    @Override
     public User getObject(ResultSet resultSet) throws SQLException {
         User user = new User();
 

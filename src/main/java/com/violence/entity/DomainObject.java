@@ -6,4 +6,5 @@ import java.sql.SQLException;
 
 public interface DomainObject<T> extends Serializable {
     T getObject(ResultSet resultSet) throws SQLException;
+    String getFieldVsValue();
 }

@@ -85,6 +85,13 @@ public class Author implements DomainObject<Author> {
                 surname + "\', \'" +
                 country + "\' )";
     }
+    @Override
+    public String getFieldVsValue() {
+        return  "id= '" + id + '\'' +
+                ", name= '" + name + '\'' +
+                ", surname= '" + surname + '\'' +
+                ", country= '" + country + '\'';
+    }
 
     @Override
     public Author getObject(ResultSet resultSet) throws SQLException {

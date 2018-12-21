@@ -19,7 +19,10 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public void edit(Book book) {
-
+        String sql = "UPDATE users" +
+                "SET " + book.getFieldVsValue() +
+                "WHERE CustomerID = ?";
+        entityAdapter.update(sql, book.getId());
     }
 
     @Override

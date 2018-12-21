@@ -12,19 +12,20 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
     @Override
     public void save(Author author) {
-        String sql = "INSERT INTO authors (author_id, author_name, author_surname, country) VALUES " + author.getId();
+        String sql = "INSERT INTO authors (author_id, author_name, author_surname, country) VALUES " + author.toString();
         entityAdapter.insert(sql);
     }
 
     @Override
     public void edit(Author author) {
-
+        String sql = "UPDATE users" +
+                "SET " + author.getFieldVsValue() +
+                "WHERE CustomerID = ?";
+        entityAdapter.update(sql, author.getId());
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
+    public void delete(Long id) { }
 
     @Override
     public Author getById(Long id) {
@@ -32,7 +33,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
                 "authors.* " +
                 "FROM authors " +
                 "WHERE authors.authors_id = ?";
-        return entityAdapter.getObject(new Author(), sql, id);
+        return entityAdapter.getObject(new Author(), sql, id.toString());
     }
 
     @Override

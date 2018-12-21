@@ -98,6 +98,15 @@ public class Book implements DomainObject<Book> {
     }
 
     @Override
+    public String getFieldVsValue() {
+        return  "book_id = '" + id + '\'' +
+                ", book_name = '" + name + '\'' +
+                ", size = " + size +
+                ", lang = '" + lang + '\'' +
+                ", is_use = '" + isUse + '\'';
+    }
+
+    @Override
     public Book getObject(ResultSet resultSet) throws SQLException {
         Book book = new Book();
 

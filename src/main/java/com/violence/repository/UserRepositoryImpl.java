@@ -18,7 +18,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void edit(User user) {
-
+        String sql = "UPDATE users" +
+                "SET " + user.getFieldVsValue() +
+                "WHERE CustomerID = ?";
+        entityAdapter.update(sql, user.getId());
     }
 
     @Override
@@ -26,10 +29,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
+
+    @Override
+    public User getUserByLogin(String login) {
+        String sql = "SELECT " +
+                "authors.* " +
+                "FROM authors " +
+                "WHERE authors.authors_id = ?";
+        return entityAdapter.getObject(new User(), sql, login);
+    }
+
     @Override
     public User getById(Long id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
-        return entityAdapter.getObject(new User(), sql, id);
+        return entityAdapter.getObject(new User(), sql, id.toString());
     }
 
     @Override

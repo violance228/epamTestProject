@@ -79,6 +79,15 @@ public class Catalog implements DomainObject<Catalog> {
     }
 
     @Override
+    public String getFieldVsValue() {
+        return  "catalog_id = '" + id + '\'' +
+                ", date_from = '" + dateFrom + '\'' +
+                ", date_to = '" + dateTo + '\'' +
+                ", user_id = '" + user.getId() + '\'' +
+                ", book_id = '" + book.getId() + '\'';
+    }
+
+    @Override
     public Catalog getObject(ResultSet resultSet) throws SQLException {
         Catalog catalog = new Catalog();
 
@@ -90,4 +99,5 @@ public class Catalog implements DomainObject<Catalog> {
 
         return catalog;
     }
+
 }
