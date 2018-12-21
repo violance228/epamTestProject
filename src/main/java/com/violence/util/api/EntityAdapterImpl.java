@@ -1,11 +1,9 @@
 package com.violence.util.api;
 
 import com.sun.rowset.JdbcRowSetImpl;
-import com.violence.entity.Author;
 import com.violence.entity.DomainObject;
 import com.violence.util.DataSourceConn;
 
-import javax.xml.ws.ServiceMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
