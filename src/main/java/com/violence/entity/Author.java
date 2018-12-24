@@ -1,14 +1,18 @@
 package com.violence.entity;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.violence.util.api.annotation.Column;
+
 import java.util.Objects;
 import java.util.Set;
 
 public class Author implements DomainObject<Author> {
+    @Column("author_id")
     private Long id;
+    @Column("author_id")
     private String name;
+    @Column("author_id")
     private String surname;
+    @Column("country")
     private String country;
     private Set<Book> books;
 
@@ -93,15 +97,15 @@ public class Author implements DomainObject<Author> {
                 ", country= '" + country + '\'';
     }
 
-    @Override
-    public Author getObject(ResultSet resultSet) throws SQLException {
-        Author author = new Author();
-
-        author.setId(resultSet.getLong("author_id"));
-        author.setName(resultSet.getString("author_name"));
-        author.setSurname(resultSet.getString("author_surname"));
-        author.setCountry(resultSet.getString("country"));
-
-        return author;
-    }
+//    @Override
+//    public Author getObject(ResultSet resultSet) throws SQLException {
+//        Author author = new Author();
+//
+//        author.setId(resultSet.getLong("author_id"));
+//        author.setName(resultSet.getString("author_name"));
+//        author.setSurname(resultSet.getString("author_surname"));
+//        author.setCountry(resultSet.getString("country"));
+//
+//        return author;
+//    }
 }

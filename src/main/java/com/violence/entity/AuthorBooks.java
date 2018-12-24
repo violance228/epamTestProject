@@ -38,8 +38,13 @@ public class AuthorBooks implements DomainObject<AuthorBooks> {
         return Objects.hash(authorId, bookId);
     }
 
+//    @Override
+//    public AuthorBooks getObject(ResultSet resultSet) throws SQLException {
+//        return null;
+//    }
+
     @Override
-    public AuthorBooks getObject(ResultSet resultSet) throws SQLException {
+    public String getFieldVsValue() {
         return null;
     }
 }

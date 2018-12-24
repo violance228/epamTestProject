@@ -1,16 +1,22 @@
 package com.violence.entity;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.violence.util.api.annotation.Column;
 import java.util.Objects;
 
 public class User implements DomainObject<User> {
+    @Column("user_id")
     private Long id;
+    @Column("login")
     private String login;
+    @Column("user_name")
     private String name;
+    @Column("user_surname")
     private String surname;
+    @Column("password")
     private String password;
+    @Column("email")
     private String email;
+    @Column("phone")
     private String phone;
 
     public Long getId() {
@@ -108,18 +114,18 @@ public class User implements DomainObject<User> {
                 ", phone = '" + phone + '\'';
     }
 
-    @Override
-    public User getObject(ResultSet resultSet) throws SQLException {
-        User user = new User();
-
-        user.setId(resultSet.getLong("user_id"));
-        user.setName(resultSet.getString("user_name"));
-        user.setLogin(resultSet.getString("login"));
-        user.setPassword(resultSet.getString("password"));
-        user.setEmail(resultSet.getString("email"));
-        user.setPhone(resultSet.getString("phone"));
-        user.setSurname(resultSet.getString("user_surname"));
-
-        return user;
-    }
+//    @Override
+//    public User getObject(ResultSet resultSet) throws SQLException {
+//        User user = new User();
+//
+//        user.setId(resultSet.getLong("user_id"));
+//        user.setName(resultSet.getString("user_name"));
+//        user.setLogin(resultSet.getString("login"));
+//        user.setPassword(resultSet.getString("password"));
+//        user.setEmail(resultSet.getString("email"));
+//        user.setPhone(resultSet.getString("phone"));
+//        user.setSurname(resultSet.getString("user_surname"));
+//
+//        return user;
+//    }
 }

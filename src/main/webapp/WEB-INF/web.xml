@@ -4,28 +4,48 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.html</form-login-page>
-            <form-error-page>/error.html</form-error-page>
-        </form-login-config>
-    </login-config>
+    <!--<login-config>-->
+        <!--<auth-method>FORM</auth-method>-->
+        <!--<form-login-config>-->
+            <!--<form-login-page>/login.html</form-login-page>-->
+            <!--<form-error-page>/error.html</form-error-page>-->
+        <!--</form-login-config>-->
+    <!--</login-config>-->
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>secured</web-resource-name>
-            <url-pattern>/secured</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>MANAGER</role-name>
-        </auth-constraint>
-    </security-constraint>
+    <!--<security-constraint>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>secured</web-resource-name>-->
+            <!--<url-pattern>/secured</url-pattern>-->
+            <!--<http-method>GET</http-method>-->
+            <!--<http-method>POST</http-method>-->
+        <!--</web-resource-collection>-->
+        <!--<auth-constraint>-->
+            <!--<role-name>MANAGER</role-name>-->
+        <!--</auth-constraint>-->
+    <!--</security-constraint>-->
 
-    <security-role>
-        <role-name>MANAGER</role-name>
-    </security-role>
+    <!--<security-role>-->
+        <!--<role-name>MANAGER</role-name>-->
+    <!--</security-role>-->
+
+
+    <!--<servlet>-->
+        <!--<servlet-name>ContactInfoServlet</servlet-name>-->
+        <!--<servlet-class>-->
+            <!--com.violence.servlets.Config-->
+        <!--</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>ContactInfoServlet</servlet-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <servlet>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
 
 </web-app>

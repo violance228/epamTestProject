@@ -1,15 +1,22 @@
 package com.violence.entity;
 
+import com.violence.util.api.annotation.Column;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
 public class Catalog implements DomainObject<Catalog> {
+    @Column("catalog_id")
     private Long id;
+    @Column("dateFrom")
     private Date dateFrom;
+    @Column("dateTo")
     private Date dateTo;
+    @Column("user")
     private User user;
+    @Column("book")
     private Book book;
 
     public Long getId() {
@@ -87,17 +94,17 @@ public class Catalog implements DomainObject<Catalog> {
                 ", book_id = '" + book.getId() + '\'';
     }
 
-    @Override
-    public Catalog getObject(ResultSet resultSet) throws SQLException {
-        Catalog catalog = new Catalog();
-
-        catalog.setId(resultSet.getLong("catalog_id"));
-        catalog.setDateFrom(resultSet.getDate("date_from"));
-        catalog.setDateTo(resultSet.getDate("date_to"));
-        catalog.setBook(new Book().getObject(resultSet));
-        catalog.setUser(new User().getObject(resultSet));
-
-        return catalog;
-    }
+//    @Override
+//    public Catalog getObject(ResultSet resultSet) throws SQLException {
+//        Catalog catalog = new Catalog();
+//
+//        catalog.setId(resultSet.getLong("catalog_id"));
+//        catalog.setDateFrom(resultSet.getDate("date_from"));
+//        catalog.setDateTo(resultSet.getDate("date_to"));
+//        catalog.setBook(new Book().getObject(resultSet));
+//        catalog.setUser(new User().getObject(resultSet));
+//
+//        return catalog;
+//    }
 
 }

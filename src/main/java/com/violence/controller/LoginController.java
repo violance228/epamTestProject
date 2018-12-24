@@ -4,18 +4,24 @@ import com.violence.entity.User;
 import com.violence.repository.UserRepository;
 import com.violence.repository.UserRepositoryImpl;
 
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Named
+@RequestScoped
 @WebServlet(urlPatterns = "/login")
 public class LoginController implements Filter {
 
-    private UserRepository userRepository = new UserRepositoryImpl();
+    @Inject
+    private UserRepository userRepository;
 
 
     @Override

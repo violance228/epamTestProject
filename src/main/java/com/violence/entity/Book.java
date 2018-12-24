@@ -1,17 +1,20 @@
 package com.violence.entity;
 
-import com.violence.util.api.EntityAdapterImpl;
+import com.violence.util.api.annotation.Column;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Set;
 
 public class Book implements DomainObject<Book> {
+    @Column("book_id")
     private Long id;
+    @Column("book_name")
     private String name;
+    @Column("size")
     private Integer size;
+    @Column("lang")
     private String lang;
+    @Column("is_use")
     private Boolean isUse;
     private Set<Author> authors;
 
@@ -106,17 +109,17 @@ public class Book implements DomainObject<Book> {
                 ", is_use = '" + isUse + '\'';
     }
 
-    @Override
-    public Book getObject(ResultSet resultSet) throws SQLException {
-        Book book = new Book();
-
-        book.setId(resultSet.getLong("book_id"));
-        book.setName(resultSet.getString("book_name"));
-        book.setSize(resultSet.getInt("size"));
-        book.setLang(resultSet.getString("lang"));
-        book.setUse(resultSet.getBoolean("is_use"));
-//        book.setAuthors(new EntityAdapterImpl().getSetObjectFromResultSet(new Author(), "author_book_book_id" , book.getId(), resultSet));
-
-        return book;
-    }
+//    @Override
+//    public Book getObject(ResultSet resultSet) throws SQLException {
+//        Book book = new Book();
+//
+//        book.setId(resultSet.getLong("book_id"));
+//        book.setName(resultSet.getString("book_name"));
+//        book.setSize(resultSet.getInt("size"));
+//        book.setLang(resultSet.getString("lang"));
+//        book.setUse(resultSet.getBoolean("is_use"));
+////        book.setAuthors(new EntityAdapterImpl().getSetObjectFromResultSet(new Author(), "author_book_book_id" , book.getId(), resultSet));
+//
+//        return book;
+//    }
 }

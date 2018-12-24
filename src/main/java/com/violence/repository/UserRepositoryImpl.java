@@ -36,19 +36,19 @@ public class UserRepositoryImpl implements UserRepository {
                 "authors.* " +
                 "FROM authors " +
                 "WHERE authors.authors_id = ?";
-        return entityAdapter.getObject(new User(), sql, login);
+        return (User) entityAdapter.getObject(User.class, sql, login);
     }
 
     @Override
     public User getById(Long id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
-        return entityAdapter.getObject(new User(), sql, id.toString());
+        return (User) entityAdapter.getObject(User.class, sql, id.toString());
     }
 
     @Override
     public List<User> getAll() {
         String sql = "SELECT * FROM users";
-        return entityAdapter.getListObject(new User(), sql);
+        return (List<User>) entityAdapter.getListObject(User.class, sql);
     }
 
     @Override
