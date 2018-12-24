@@ -1,8 +1,6 @@
 package com.violence.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DataSourceConn {
 
@@ -21,5 +19,16 @@ public class DataSourceConn {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public static void close(Statement statement, ResultSet resultSet) {
+        try {
+            if (resultSet != null)
+                resultSet.close();
+            if (statement != null)
+                statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

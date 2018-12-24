@@ -1,5 +1,6 @@
 package com.violence.util.api.annotation;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class ColumnAnnotationImpl implements ColumnAnnotation {
+public class ReflectionApiImpl implements ReflectionApi {
     public Object getObject(Class aClass, ResultSet resultSet) {
         Object object = null;
         try {
@@ -54,6 +55,8 @@ public class ColumnAnnotationImpl implements ColumnAnnotation {
                         field.set(object, resultSet.getBoolean(annotation.value()));
                     } else if (field.getType() == Date.class) {
                         field.set(object, resultSet.getDate(annotation.value()));
+                    } else if (field.getType() == Integer.class) {
+                        field.set(object, resultSet.getInt(annotation.value()));
                     } else {
                         field.set(object, getObjectFromResultSet(
                                 field.getType().getDeclaredFields(),
@@ -65,6 +68,22 @@ public class ColumnAnnotationImpl implements ColumnAnnotation {
                     e.printStackTrace();
                 }
             }
+        }
+        return object;
+    }
+
+    public Object getObjectFromRequest(HttpServletRequest request, Class aClass) {
+        Object object = null;
+        try {
+            object = aClass.newInstance();
+            Field[] fields =aClass.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                field.set(object, request.getParameter(field.getName()));
+            }
+            return object;
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
         }
         return object;
     }

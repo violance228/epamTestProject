@@ -2,8 +2,8 @@ package com.violence.util.api;
 
 import com.sun.rowset.JdbcRowSetImpl;
 import com.violence.util.DataSourceConn;
-import com.violence.util.api.annotation.ColumnAnnotation;
-import com.violence.util.api.annotation.ColumnAnnotationImpl;
+import com.violence.util.api.annotation.ReflectionApi;
+import com.violence.util.api.annotation.ReflectionApiImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.util.*;
 
 public class EntityAdapterImpl implements EntityAdapter {
 
-    private ColumnAnnotation columnAnnotation = new ColumnAnnotationImpl();
+    private ReflectionApi reflectionApi = new ReflectionApiImpl();
 
 //    private List<Object> getListObjectFromResultSet(Object o, ResultSet resultSet) throws SQLException {
 //        List<Object> result = new ArrayList<>();
@@ -33,15 +33,17 @@ public class EntityAdapterImpl implements EntityAdapter {
             statement.setLong(1, Long.valueOf(id));
             resultSet = statement.executeQuery();
 
-            return columnAnnotation.getObject(aClass, resultSet);
+            return reflectionApi.getObject(aClass, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            DataSourceConn.close(statement, resultSet);
         }
     }
 
     public Object getObjectFromResultSet(Class aClass, ResultSet resultSet) {
-        return columnAnnotation.getObject(aClass, resultSet);
+        return reflectionApi.getObject(aClass, resultSet);
     }
 
     public Object getObject(Class aClass, String sql, Map<Integer, String> params) {
@@ -52,10 +54,12 @@ public class EntityAdapterImpl implements EntityAdapter {
             statement = setParamsFromMap(params, statement);
             resultSet = statement.executeQuery();
 
-            return columnAnnotation.getObject(aClass, resultSet);
+            return reflectionApi.getObject(aClass, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            DataSourceConn.close(statement, resultSet);
         }
     }
 
@@ -65,7 +69,7 @@ public class EntityAdapterImpl implements EntityAdapter {
         try {
             statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
             resultSet = statement.executeQuery();
-            return columnAnnotation.getListObject(aClass, resultSet);
+            return reflectionApi.getListObject(aClass, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -79,10 +83,12 @@ public class EntityAdapterImpl implements EntityAdapter {
             statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
             statement = setParamsFromMap(params, statement);
             resultSet = statement.executeQuery();
-            return (List<Object>) columnAnnotation.getListObject(aClass, resultSet);
+            return (List<Object>) reflectionApi.getListObject(aClass, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            DataSourceConn.close(statement, resultSet);
         }
     }
 
@@ -102,6 +108,13 @@ public class EntityAdapterImpl implements EntityAdapter {
             statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -119,7 +132,7 @@ public class EntityAdapterImpl implements EntityAdapter {
                 ResultSet set = new JdbcRowSetImpl(resultSet);
                 while (set.next()) {
                     if (set.getString(fieldName) != null && set.getLong(fieldName) == id) {
-                        result.add(columnAnnotation.getObject(aClass, set));
+                        result.add(reflectionApi.getObject(aClass, set));
                     }
                 }
             }

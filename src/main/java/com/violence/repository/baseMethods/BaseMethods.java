@@ -1,4 +1,4 @@
-package com.violence.repository;
+package com.violence.repository.baseMethods;
 
 import java.util.List;
 
