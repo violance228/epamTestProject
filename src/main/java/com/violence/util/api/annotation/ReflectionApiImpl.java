@@ -4,22 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ReflectionApiImpl implements ReflectionApi {
     public Object getObject(Class aClass, ResultSet resultSet) {
         Object object = null;
         try {
-            object = aClass.newInstance();
             Field[] fields = aClass.getDeclaredFields();
             while (resultSet.next())
-                object = getObjectFromResultSet(fields, object, resultSet);
-
+                object = getObjectFromResultSet(fields, aClass, resultSet);
             return object;
-        } catch (InstantiationException | IllegalAccessException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return object;
@@ -27,27 +22,32 @@ public class ReflectionApiImpl implements ReflectionApi {
 
     public Collection getListObject(Class aClass, ResultSet resultSet) {
         List<Object> objectList = new ArrayList<>();
-        Object object = null;
         try {
-            object = aClass.newInstance();
             Field[] fields = aClass.getDeclaredFields();
-            while (resultSet.next()) {
-                objectList.add(getObjectFromResultSet(fields, object, resultSet));
-            }
-            return objectList;
-        } catch (IllegalAccessException | InstantiationException | SQLException e) {
+            while (resultSet.next())
+                objectList.add(getObjectFromResultSet(fields, aClass, resultSet));
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return objectList;
     }
 
-    private Object getObjectFromResultSet(Field[] fields, Object object, ResultSet resultSet) {
+    private Object getObjectFromResultSet(Field[] fields, Class aClass, ResultSet resultSet) {
+        Object object = null;
+        try {
+            object = aClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        Long id = null;
         for (Field field : fields) {
             Column annotation = field.getAnnotation(Column.class);
+//            Contact contact = field.getAnnotation(Contact.class);
             if (annotation != null) {
                 try {
                     field.setAccessible(true);
                     if (field.getType() == Long.class) {
+                        id = resultSet.getLong(annotation.value());
                         field.set(object, resultSet.getLong(annotation.value()));
                     } else if (field.getType() == String.class) {
                         field.set(object, resultSet.getString(annotation.value()));
@@ -57,19 +57,23 @@ public class ReflectionApiImpl implements ReflectionApi {
                         field.set(object, resultSet.getDate(annotation.value()));
                     } else if (field.getType() == Integer.class) {
                         field.set(object, resultSet.getInt(annotation.value()));
-                    } else {
+                    }
+//                    else if (contact != null) {
+//                        field.set(object, getSetFormResultSet(object,
+//                                getResultSetFromExecuteClassForSet(contact.queryExecuteClass(), contact.value(), id)));
+//                    }
+                    else {
                         field.set(object, getObjectFromResultSet(
                                 field.getType().getDeclaredFields(),
-                                field.getType().newInstance(),
+                                field.getType(),
                                 resultSet)
                         );
                     }
-                } catch (IllegalAccessException | SQLException | InstantiationException e) {
+                } catch (IllegalAccessException | SQLException e) {
                     e.printStackTrace();
                 }
             }
-        }
-        return object;
+        } return object;
     }
 
     public Object getObjectFromRequest(HttpServletRequest request, Class aClass) {
@@ -84,7 +88,33 @@ public class ReflectionApiImpl implements ReflectionApi {
             return object;
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-        }
-        return object;
+        } return object;
     }
+
+//    private Set<Object> getSetFormResultSet(Object t, ResultSet resultSet) {
+//        Set<Object> tSet = new HashSet<>();
+//        try {
+//            while (resultSet.next())
+//                tSet.add(getObject(t.getClass(), resultSet));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return tSet;
+//    }
+
+//    private ResultSet getResultSetFromExecuteClassForSet(Class aClass, String searchParam, Long id) {
+//        ResultSet resultSet = null;
+//        Method[] methods = aClass.getDeclaredMethods();
+//        for (Method method : methods) {
+//            Column annotation = method.getAnnotation(Column.class);
+//            if (annotation != null && annotation.value().contains(searchParam)) {
+//                try {
+//                    resultSet = (ResultSet) method.invoke(aClass.newInstance(), id);
+//                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return resultSet;
+//    }
 }

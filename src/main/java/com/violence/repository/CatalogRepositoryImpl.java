@@ -35,7 +35,7 @@ public class CatalogRepositoryImpl implements CatalogRepository {
                 "INNER JOIN users ON catalog.user_id = users.user_id " +
                 "INNER JOIN books ON catalog.book_id = books.book_id" +
                 "WHERE catalog.catalog_id = ?";
-        return (Catalog) entityAdapter.getObject(Catalog.class, sql, id.toString());
+        return (Catalog) entityAdapter.getObject(Catalog.class, sql, id);
     }
 
     @Override

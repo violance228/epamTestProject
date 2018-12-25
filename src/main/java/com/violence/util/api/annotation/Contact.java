@@ -1,13 +1,13 @@
 package com.violence.util.api.annotation;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
-
-@Target({ METHOD, FIELD, ANNOTATION_TYPE })
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Column {
+public @interface Contact {
     String value();
+    Class queryExecuteClass();
 }

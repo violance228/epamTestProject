@@ -6,11 +6,15 @@ import com.violence.repository.UserRepositoryImpl;
 import com.violence.util.api.parser.ObjectParserFromReq;
 import com.violence.util.api.parser.ObjectParserFromReqImpl;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Named
+@RequestScoped
 @WebServlet(urlPatterns = "/registration")
 public class Registration extends HttpServlet {
 

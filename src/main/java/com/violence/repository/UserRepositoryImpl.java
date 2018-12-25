@@ -4,7 +4,9 @@ import com.violence.entity.User;
 import com.violence.util.api.EntityAdapter;
 import com.violence.util.api.EntityAdapterImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -36,13 +38,15 @@ public class UserRepositoryImpl implements UserRepository {
                 "authors.* " +
                 "FROM authors " +
                 "WHERE authors.authors_id = ?";
-        return (User) entityAdapter.getObject(User.class, sql, login);
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, login);
+        return (User) entityAdapter.getObject(User.class, sql, map);
     }
 
     @Override
     public User getById(Long id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
-        return (User) entityAdapter.getObject(User.class, sql, id.toString());
+        return (User) entityAdapter.getObject(User.class, sql, id);
     }
 
     @Override

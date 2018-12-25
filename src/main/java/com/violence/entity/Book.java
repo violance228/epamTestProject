@@ -1,6 +1,8 @@
 package com.violence.entity;
 
+import com.violence.repository.AuthorBooksRepositoryImpl;
 import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Contact;
 
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +18,8 @@ public class Book implements DomainObject<Book> {
     private String lang;
     @Column("is_use")
     private Boolean isUse;
+    @Column("user")
+    @Contact(value = "author_id", queryExecuteClass = AuthorBooksRepositoryImpl.class)
     private Set<Author> authors;
 
     public Book(Long id, String name, Integer size, String lang, Boolean isUse) {

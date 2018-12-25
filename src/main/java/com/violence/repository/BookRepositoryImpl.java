@@ -42,7 +42,7 @@ public class BookRepositoryImpl implements BookRepository {
                 "INNER JOIN authors ON author_book.author_book_author_id = authors.author_id" +
                 "WHERE books.books_id = ?";
         
-        return (Book) entityAdapter.getObject(Book.class, sql, id.toString());
+        return (Book) entityAdapter.getObject(Book.class, sql, id);
     }
 
     @Override

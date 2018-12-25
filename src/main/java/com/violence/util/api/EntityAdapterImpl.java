@@ -25,12 +25,12 @@ public class EntityAdapterImpl implements EntityAdapter {
 //        }
 //    }
 
-    public Object getObject(Class aClass, String sql, String id) {
+    public Object getObject(Class aClass, String sql, Long id) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
-            statement.setLong(1, Long.valueOf(id));
+            statement.setLong(1, id);
             resultSet = statement.executeQuery();
 
             return reflectionApi.getObject(aClass, resultSet);
@@ -81,8 +81,7 @@ public class EntityAdapterImpl implements EntityAdapter {
         ResultSet resultSet = null;
         try {
             statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
-            statement = setParamsFromMap(params, statement);
-            resultSet = statement.executeQuery();
+            resultSet = setParamsFromMap(params, statement).executeQuery();
             return (List<Object>) reflectionApi.getListObject(aClass, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,6 +89,17 @@ public class EntityAdapterImpl implements EntityAdapter {
         } finally {
             DataSourceConn.close(statement, resultSet);
         }
+    }
+
+    public ResultSet getResultSet(String sql) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            resultSet = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql).executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet;
     }
 
     public void insert(String sql) {

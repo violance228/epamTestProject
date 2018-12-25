@@ -33,7 +33,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
                 "authors.* " +
                 "FROM authors " +
                 "WHERE authors.authors_id = ?";
-        return (Author) entityAdapter.getObject(Author.class, sql, id.toString());
+        return (Author) entityAdapter.getObject(Author.class, sql, id);
     }
 
     @Override
