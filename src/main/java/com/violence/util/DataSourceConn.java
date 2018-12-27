@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DataSourceConn {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String url = "jdbc:postgresql://192.200.100.160:5432/epam_project";
     private static final String user = "postgres";
     private static final String password = "postgres";
 
@@ -25,6 +25,8 @@ public class DataSourceConn {
         try {
             if (resultSet != null)
                 resultSet.close();
+            if (statement.getConnection() != null)
+                statement.getConnection().close();
             if (statement != null)
                 statement.close();
         } catch (SQLException e) {
