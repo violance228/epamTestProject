@@ -42,6 +42,22 @@ public class EntityAdapterImpl implements EntityAdapter {
         }
     }
 
+    public Object getObject(Class aClass, String sql) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
+            return reflectionApi.getObject(aClass, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            DataSourceConn.close(statement, resultSet);
+        }
+    }
+
     public Object getObjectFromResultSet(Class aClass, ResultSet resultSet) {
         return reflectionApi.getObject(aClass, resultSet);
     }
@@ -104,6 +120,7 @@ public class EntityAdapterImpl implements EntityAdapter {
 
     public void insert(String sql) {
         try {
+
             DataSourceConn.getPostgreSqlConnection().prepareStatement(sql).execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,6 +176,13 @@ public class EntityAdapterImpl implements EntityAdapter {
             result.append(t.toString());
             result.append(" ,");
         }
+        return result.delete(result.length() - 2, result.length()).append(";").toString();
+    }
+
+    public <T> String prepareObjectToInsert(T object) {
+        StringBuilder result = new StringBuilder();
+        result.append(object.toString());
+        result.append(" ,");
         return result.delete(result.length() - 2, result.length()).append(";").toString();
     }
 
