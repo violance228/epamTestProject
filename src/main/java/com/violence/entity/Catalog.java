@@ -10,9 +10,9 @@ import java.util.Objects;
 public class Catalog implements DomainObject<Catalog> {
     @Column("catalog_id")
     private Long id;
-    @Column("dateFrom")
+    @Column("date_from")
     private Date dateFrom;
-    @Column("dateTo")
+    @Column("date_to")
     private Date dateTo;
     @Column("user")
     private User user;

@@ -16,8 +16,8 @@ public class Author implements DomainObject<Author> {
     private String surname;
     @Column("country")
     private String country;
-    @Column(value = "book_id")
-    @Contact(value = "book_id", queryExecuteClass = AuthorBooksRepositoryImpl.class)
+//    @Column(value = "book_id")
+//    @Contact(value = "book_id", queryExecuteClass = AuthorBooksRepositoryImpl.class)
     private Set<Book> books;
 
     public Author(Long id, String name, String surname, String country) {

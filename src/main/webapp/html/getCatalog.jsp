@@ -1,20 +1,38 @@
 <%--
   Created by IntelliJ IDEA.
-  User: s3809
-  Date: 1/14/2019
-  Time: 8:52 PM
+  User: violence
+  Date: 15.01.2019
+  Time: 11:07
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<table>
+<table border="2px">
+
     <tr>
-        <td>Login</td>
-        <td>Name</td>
+        <td>Catalog</td>
+        <td>${catalog.id}</td>
+    </tr>
+    <tr>
+        <td>User</td>
+        <td>${catalog.user.name} ${catalog.user.surname}</td>
+    </tr>
+    <tr>
+        <td>Book</td>
+        <td>${catalog.book.name}</td>
+    </tr>
+    <tr>
+        <td>Date from</td>
+        <td>${catalog.dateFrom}</td>
+    </tr>
+    <tr>
+        <td>Date to</td>
+        <td>${catalog.dateTo}</td>
     </tr>
 </table>
 </body>

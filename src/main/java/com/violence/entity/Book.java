@@ -18,8 +18,8 @@ public class Book implements DomainObject<Book> {
     private String lang;
     @Column("is_use")
     private Boolean isUse;
-    @Column("user")
-    @Contact(value = "author_id", queryExecuteClass = AuthorBooksRepositoryImpl.class)
+//    @Column("user")
+//    @Contact(value = "author_id", queryExecuteClass = AuthorBooksRepositoryImpl.class)
     private Set<Author> authors;
 
     public Book(Long id, String name, Integer size, String lang, Boolean isUse) {
