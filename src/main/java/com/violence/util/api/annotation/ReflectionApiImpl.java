@@ -42,7 +42,6 @@ public class ReflectionApiImpl implements ReflectionApi {
         Long id = null;
         for (Field field : fields) {
             Column annotation = field.getAnnotation(Column.class);
-//            Contact contact = field.getAnnotation(Contact.class);
             if (annotation != null) {
                 try {
                     field.setAccessible(true);
@@ -57,12 +56,7 @@ public class ReflectionApiImpl implements ReflectionApi {
                         field.set(object, resultSet.getDate(annotation.value()));
                     } else if (field.getType() == Integer.class) {
                         field.set(object, resultSet.getInt(annotation.value()));
-                    }
-//                    else if (contact != null) {
-//                        field.set(object, getSetFormResultSet(object,
-//                                getResultSetFromExecuteClassForSet(contact.queryExecuteClass(), contact.value(), id)));
-//                    }
-                    else {
+                    } else {
                         field.set(object, getObjectFromResultSet(
                                 field.getType().getDeclaredFields(),
                                 field.getType(),
@@ -80,7 +74,7 @@ public class ReflectionApiImpl implements ReflectionApi {
         Object object = null;
         try {
             object = aClass.newInstance();
-            Field[] fields =aClass.getDeclaredFields();
+            Field[] fields = aClass.getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
                 field.set(object, request.getParameter(field.getName()));

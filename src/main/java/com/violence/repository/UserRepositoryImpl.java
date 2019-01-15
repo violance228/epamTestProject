@@ -14,7 +14,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO users (user_id, user_name, user_surname, login, password, email, phone) VALUES " + user.getId();
+        if (user.getId() == null)
+            user.setId(getLastRecord().getId()+1);
+
+        String sql = "INSERT INTO users (user_id, user_name, user_surname, login, password, email, phone) VALUES " + entityAdapter.prepareObjectToInsert(user);
         entityAdapter.insert(sql);
     }
 
@@ -31,13 +34,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
-
     @Override
     public User getUserByLogin(String login) {
         String sql = "SELECT " +
-                "authors.* " +
-                "FROM authors " +
-                "WHERE authors.authors_id = ?";
+                "users.* " +
+                "FROM users " +
+                "WHERE users.login = ?";
         Map<Integer, String> map = new HashMap<>();
         map.put(1, login);
         return (User) entityAdapter.getObject(User.class, sql, map);
@@ -60,5 +62,10 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "INSERT INTO users (user_id, user_name, user_surname, login, password, email, phone) VALUES "
                 + entityAdapter.prepareObjectToInsert(users);
         entityAdapter.insert(sql);
+    }
+
+    public User getLastRecord() {
+        String sql = "SELECT * FROM users ORDER BY user_id DESC LIMIT 1";
+        return (User) entityAdapter.getObject(User.class, sql);
     }
 }

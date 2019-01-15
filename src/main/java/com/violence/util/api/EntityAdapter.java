@@ -14,6 +14,7 @@ import java.util.Set;
 
 public interface EntityAdapter {
     Object getObjectFromResultSet(Class aClass, ResultSet resultSet);
+    Object getObject(Class aClass, String sql);
     Object getObject(Class aClass, String sql, Long id);
     Object getObject(Class aClass, String sql, Map<Integer, String> params);
     Collection getListObject(Class aClass, String sql);
@@ -23,4 +24,5 @@ public interface EntityAdapter {
     void insert(String sql);
     void update(String sql, Long id);
     <T> String prepareObjectToInsert(List<T> authors);
+    <T> String prepareObjectToInsert(T object);
 }
