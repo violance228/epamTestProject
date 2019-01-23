@@ -1,9 +1,9 @@
 package com.violence.servlets.catalog;
 
 import com.violence.entity.Catalog;
-import com.violence.entity.User;
 import com.violence.repository.CatalogRepository;
 import com.violence.repository.CatalogRepositoryImpl;
+import com.violence.util.Utils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * created by user violence
@@ -24,16 +23,24 @@ import java.util.List;
 
 @Named
 @RequestScoped
-@WebServlet(urlPatterns = "/getAllCatalogs")
-public class getAllCatalogs extends HttpServlet {
+@WebServlet(urlPatterns = "/getCatalog")
+public class GetCatalog extends HttpServlet {
 
     private CatalogRepository catalogRepository = new CatalogRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        List<Catalog> catalogs = catalogRepository.getAll();
-        req.setAttribute("catalogs", catalogs);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/getAllCatalogs.jsp");
+        Catalog catalog = catalogRepository.getById(Utils.getLongParamFromReq(req, "catalog_id"));
+        req.setAttribute("catalog", catalog);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/catalog/getCatalog.jsp");
         requestDispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        Catalog catalog = catalogRepository.getById(Utils.getLongParamFromReq(req, "catalog_id"));
+        req.setAttribute("catalog", catalog);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/editCatalog");
+        requestDispatcher.include(req, resp);
     }
 }

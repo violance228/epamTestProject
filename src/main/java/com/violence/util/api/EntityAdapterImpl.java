@@ -92,18 +92,33 @@ public class EntityAdapterImpl implements EntityAdapter {
         }
     }
 
-    public List<Object> getListObject(Class aClass, String sql, Map<Integer, String> params) {
+    public Collection getListObject(Class aClass, String sql, Map<Integer, String> params) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
             resultSet = setParamsFromMap(params, statement).executeQuery();
-            return (List<Object>) reflectionApi.getListObject(aClass, resultSet);
+            return reflectionApi.getListObject(aClass, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         } finally {
             DataSourceConn.close(statement, resultSet);
+        }
+    }
+
+    public Collection getListObject(String sql, Class aClass, Map<Integer, Long> params) {
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            statement = DataSourceConn.getPostgreSqlConnection().prepareStatement(sql);
+            rs = setParamsFromMap(statement, params).executeQuery();
+            return reflectionApi.getListObject(aClass, rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            DataSourceConn.close(statement, rs);
         }
     }
 
@@ -148,6 +163,13 @@ public class EntityAdapterImpl implements EntityAdapter {
     private PreparedStatement setParamsFromMap(Map<Integer, String> params, PreparedStatement statement) throws SQLException {
         for (Map.Entry<Integer, String> param : params.entrySet())
             statement.setString(param.getKey(), param.getValue());
+
+        return statement;
+    }
+
+    private PreparedStatement setParamsFromMap(PreparedStatement statement, Map<Integer, Long> params) throws SQLException {
+        for (Map.Entry<Integer, Long> param : params.entrySet())
+            statement.setLong(param.getKey(), param.getValue());
 
         return statement;
     }

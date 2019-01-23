@@ -8,25 +8,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page language="java" pageEncoding="UTF-8" session="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
 <head>
-    <meta charset="UTF-8"/>
-    <title>Sign-Up</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!--<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'/>-->
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>-->
-    <link href="register.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <%@include file="../fragments/header.jspf"%>
 </head>
 <body>
-<table border="1">
-    <tr>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <%@include file="../fragments/navbar.jspf"%>
+</nav>
+<table class="table">
+    <thead class="thead-dark">
         <td>Login</td>
         <td>Name</td>
         <td>Surname</td>
         <td>Email</td>
         <td>Phone</td>
-    </tr>
-    <c:forEach items="${users}" var="user" varStatus="status">
+    </thead>
+    <tbody>
+    <c:forEach items="${users}" var="user">
         <tr>
             <td>${user.login}</td>
             <td>${user.name}</td>
@@ -35,7 +34,10 @@
             <td>${user.phone}</td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
+<div>
+    <%@include file="../fragments/footer.jspf"%>
+</div>
 </body>
-
 </html>

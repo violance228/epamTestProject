@@ -27,22 +27,22 @@ public class Registration extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/html/addUser.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/html/user/addUser.jsp");
         dispatcher.forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) parser.getObjectFromRequest(req, User.class);
-
-        if (userRepository.getUserByLogin(user.getLogin()) == null) {
+        if (userRepository.getUserByLogin(user.getLogin()) == null && userRepository.getUserByPhone(user.getPhone()) == null) {
             userRepository.save(user);
             req.setAttribute("user", user);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/html/trackUser.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/html/user/trackUser.jsp");
             dispatcher.forward(req,resp);
         } else {
-
+            req.setAttribute("error", "user with same login or password already exist");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/html/user/addUser.jsp");
+            dispatcher.forward(req,resp);
         }
     }
-
 }

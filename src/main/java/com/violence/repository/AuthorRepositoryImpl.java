@@ -1,6 +1,7 @@
 package com.violence.repository;
 
 import com.violence.entity.Author;
+import com.violence.entity.Book;
 import com.violence.util.api.EntityAdapter;
 import com.violence.util.api.EntityAdapterImpl;
 
@@ -48,5 +49,11 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         String sql = "INSERT INTO authors (author_id, author_name, author_surname, country) VALUES "
                 + entityAdapter.prepareObjectToInsert(authors);
         entityAdapter.insert(sql);
+    }
+
+    @Override
+    public Author getLastRecord() {
+        String sql = "SELECT * FROM authors ORDER BY authors_id DESC LIMIT 1";
+        return (Author) entityAdapter.getObject(Author.class, sql);
     }
 }

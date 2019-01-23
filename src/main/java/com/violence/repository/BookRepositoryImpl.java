@@ -1,6 +1,7 @@
 package com.violence.repository;
 
 import com.violence.entity.Book;
+import com.violence.entity.Catalog;
 import com.violence.util.api.EntityAdapter;
 import com.violence.util.api.EntityAdapterImpl;
 
@@ -33,14 +34,14 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Book getById(Long id) {
         String sql = "SELECT " +
-                "books.* " +
-                "author_book.* " +
+                "books.*, " +
+                "author_book.*, " +
                 "authors.* " +
                 "FROM " +
                 "books " +
                 "INNER JOIN author_book ON author_book.author_book_book_id = books.book_id " +
-                "INNER JOIN authors ON author_book.author_book_author_id = authors.author_id" +
-                "WHERE books.books_id = ?";
+                "INNER JOIN authors ON author_book.author_book_author_id = authors.author_id " +
+                "WHERE books.book_id = ?";
         
         return (Book) entityAdapter.getObject(Book.class, sql, id);
     }
@@ -49,12 +50,8 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> getAll() {
         String sql = "SELECT " +
                      "books.* " +
-                     "catalog.* " +
-                     "users.* " +
                      "FROM " +
-                     "books " +
-                     "INNER JOIN catalog ON catalog.book_id = books.book_id " +
-                     "INNER JOIN users ON catalog.user_id = users.user_id";
+                     "books ";
         return (List<Book>) entityAdapter.getListObject(Book.class, sql);
     }
 
@@ -63,5 +60,11 @@ public class BookRepositoryImpl implements BookRepository {
         String sql = "INSERT INTO books (book_id, book_name, size, lang, is_use) VALUES "
                 + entityAdapter.prepareObjectToInsert(books);
         entityAdapter.insert(sql);
+    }
+
+    @Override
+    public Book getLastRecord() {
+        String sql = "SELECT * FROM catalog ORDER BY catalog_id DESC LIMIT 1";
+        return (Book) entityAdapter.getObject(Book.class, sql);
     }
 }

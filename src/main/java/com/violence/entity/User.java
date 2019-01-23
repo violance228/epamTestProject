@@ -18,6 +18,8 @@ public class User implements DomainObject<User> {
     private String email;
     @Column("phone")
     private String phone;
+    @Column("role")
+    private String role;
 
     public Long getId() {
         return id;
@@ -75,6 +77,14 @@ public class User implements DomainObject<User> {
         this.surname = surname;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,25 +92,32 @@ public class User implements DomainObject<User> {
         User user = (User) o;
         return Objects.equals(id, user.id) &&
                 Objects.equals(login, user.login) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(phone, user.phone);
+                Objects.equals(phone, user.phone) &&
+                Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, email, phone);
+
+        return Objects.hash(id, login, name, surname, password, email, phone, role);
     }
 
     @Override
     public String toString() {
-        return " ( " + id + ", \'" +
-                name + "\', \'" +
-                surname + "\', \'" +
-                login + "\', \'" +
-                password + "\', \'" +
-                email + "\', \'" +
-                phone + "\' )";
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 
     @Override
@@ -111,7 +128,8 @@ public class User implements DomainObject<User> {
                 ", surname = '" + surname + '\'' +
                 ", password = '" + password + '\'' +
                 ", email = '" + email + '\'' +
-                ", phone = '" + phone + '\'';
+                ", phone = '" + phone + '\'' +
+                ", role = '" + role + '\'';
     }
 
 //    @Override

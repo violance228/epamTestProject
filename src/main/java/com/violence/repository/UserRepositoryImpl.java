@@ -46,6 +46,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getUserByPhone(String phone) {
+        String sql = "SELECT " +
+                "users.* " +
+                "FROM users " +
+                "WHERE users.phone = ?";
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, phone);
+        return (User) entityAdapter.getObject(User.class, sql, map);
+    }
+
+    @Override
     public User getById(Long id) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         return (User) entityAdapter.getObject(User.class, sql, id);

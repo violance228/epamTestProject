@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: s3809
-  Date: 1/14/2019
-  Time: 8:52 PM
+  User: violence
+  Date: 15.01.2019
+  Time: 11:07
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,23 +12,29 @@
     <title>Title</title>
 </head>
 <body>
-<table border="2px">
-    <tr>
-        <td>catalog</td>
-        <td>login</td>
-        <td>book</td>
-        <td>date from</td>
-        <td>date to</td>
-    </tr>
-    <c:forEach items="${catalogs}" var="catalog">
+<table class="table">
+    <tbody>
         <tr>
+            <td>Catalog</td>
             <td>${catalog.id}</td>
-            <td>${catalog.user.login}</td>
+        </tr>
+        <tr>
+            <td>User</td>
+            <td>${catalog.user.name} ${catalog.user.surname}</td>
+        </tr>
+        <tr>
+            <td>Book</td>
             <td>${catalog.book.name}</td>
+        </tr>
+        <tr>
+            <td>Date from</td>
             <td>${catalog.dateFrom}</td>
+        </tr>
+        <tr>
+            <td>Date to</td>
             <td>${catalog.dateTo}</td>
         </tr>
-    </c:forEach>
+    </tbody>
 </table>
 </body>
 </html>

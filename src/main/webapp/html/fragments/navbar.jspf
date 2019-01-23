@@ -1,0 +1,46 @@
+<%--<nav class="navbar navbar-expand-sm bg-dark navbar-dark">--%>
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Logo</a>
+
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-toggle="dropdown">
+                Catalog
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="http://localhost:9090/getAllCatalogs">All catalogs</a>
+                <a class="dropdown-item" href="http://localhost:9090/addCatalog">Create catalog</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                Book
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="http://localhost:9090/getAllBooks">All books</a>
+                <a class="dropdown-item" href="http://localhost:9090/createBook">Create book</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop3" data-toggle="dropdown">
+                Author
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="http://localhost:9090/getAllAuthors">All authors</a>
+                <a class="dropdown-item" href="http://localhost:9090/createAuthor">Create author</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop4" data-toggle="dropdown">
+               Users
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="http://localhost:9090/getAllUsers">All users</a>
+                <a class="dropdown-item" href="http://localhost:9090/registration">Registration</a>
+                <a class="dropdown-item" href="http://localhost:9090/personalInform">Persona inform</a>
+                <a class="dropdown-item" href="#">Log out</a>
+            </div>
+        </li>
+    </ul>
+<%--</nav>--%>

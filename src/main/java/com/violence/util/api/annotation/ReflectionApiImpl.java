@@ -1,9 +1,12 @@
 package com.violence.util.api.annotation;
 
+import com.violence.util.Utils;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.*;
 
 public class ReflectionApiImpl implements ReflectionApi {
@@ -76,13 +79,33 @@ public class ReflectionApiImpl implements ReflectionApi {
             object = aClass.newInstance();
             Field[] fields = aClass.getDeclaredFields();
             for (Field field : fields) {
-                field.setAccessible(true);
-                field.set(object, request.getParameter(field.getName()));
+                if(request.getParameter(field.getName()) != null) {
+                    setFieldFromRequest(field, object, request.getParameter(field.getName()));
+                }
             }
             return object;
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         } return object;
+    }
+
+    private void setFieldFromRequest(Field field, Object object, Object param) {
+        try {
+            if (field.getType() == Long.class) {
+                field.setAccessible(true);
+                field.set(object, Long.valueOf(param.toString()));
+            } else if(field.getType() == String.class) {
+                field.setAccessible(true);
+                field.set(object, String.valueOf(param));
+            } else if (field.getType() == Date.class) {
+                field.setAccessible(true);
+                field.set(object, Utils.dateFromHtml.parse(String.valueOf(param)));
+            } else {
+                field.set(object, null);
+            }
+        } catch (IllegalAccessException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 //    private Set<Object> getSetFormResultSet(Object t, ResultSet resultSet) {

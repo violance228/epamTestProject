@@ -18,8 +18,9 @@ public interface EntityAdapter {
     Object getObject(Class aClass, String sql, Long id);
     Object getObject(Class aClass, String sql, Map<Integer, String> params);
     Collection getListObject(Class aClass, String sql);
+    Collection getListObject(Class aClass, String sql, Map<Integer, String> params);
+    Collection getListObject(String sql, Class aClass, Map<Integer, Long> params);
     ResultSet getResultSet(String sql);
-    List<Object> getListObject(Class aClass, String sql, Map<Integer, String> params);
     Set<Object> getSetObjectFromResultSet(Class aClass, String fieldName, Long id, ResultSet resultSet);
     void insert(String sql);
     void update(String sql, Long id);
