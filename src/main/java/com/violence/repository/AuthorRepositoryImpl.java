@@ -33,7 +33,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         String sql = "SELECT " +
                 "authors.* " +
                 "FROM authors " +
-                "WHERE authors.authors_id = ?";
+                "WHERE authors.author_id = ?";
         return (Author) entityAdapter.getObject(Author.class, sql, id);
     }
 
@@ -53,7 +53,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
     @Override
     public Author getLastRecord() {
-        String sql = "SELECT * FROM authors ORDER BY authors_id DESC LIMIT 1";
+        String sql = "SELECT * FROM authors ORDER BY author_id DESC LIMIT 1";
         return (Author) entityAdapter.getObject(Author.class, sql);
     }
 }

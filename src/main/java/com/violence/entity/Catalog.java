@@ -1,12 +1,14 @@
 package com.violence.entity;
 
 import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Table;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
+@Table(tableName = "catalog")
 public class Catalog implements DomainObject<Catalog> {
     @Column("catalog_id")
     private Long id;
@@ -14,9 +16,9 @@ public class Catalog implements DomainObject<Catalog> {
     private Date dateFrom;
     @Column("date_to")
     private Date dateTo;
-    @Column("user")
+    @Column("user_id")
     private User user;
-    @Column("book")
+    @Column("book_id")
     private Book book;
 
     public Long getId() {

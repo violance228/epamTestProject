@@ -1,8 +1,11 @@
 package com.violence.entity;
 
 import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Table;
+
 import java.util.Objects;
 
+@Table(tableName = "users")
 public class User implements DomainObject<User> {
     @Column("user_id")
     private Long id;
@@ -122,7 +125,7 @@ public class User implements DomainObject<User> {
 
     @Override
     public String getFieldVsValue() {
-        return  "id = '" + id + '\'' +
+        return  "user_id = '" + id + '\'' +
                 ", login = '" + login + '\'' +
                 ", name = '" + name + '\'' +
                 ", surname = '" + surname + '\'' +

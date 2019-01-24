@@ -6,6 +6,7 @@ import com.violence.repository.UserRepositoryImpl;
 import com.violence.util.api.parser.ObjectParserFromReq;
 import com.violence.util.api.parser.ObjectParserFromReqImpl;
 
+import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.rmi.ServerException;
 
 @Named
+@PermitAll
 @RequestScoped
 @WebServlet(urlPatterns = "/registration")
 public class Registration extends HttpServlet {

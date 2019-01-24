@@ -4,6 +4,7 @@ import com.violence.entity.User;
 import com.violence.repository.UserRepository;
 import com.violence.repository.UserRepositoryImpl;
 
+import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
@@ -14,14 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * created by user violence
- * created on 23.01.2019
- * class created for project SecurityExample
- */
-
 @Named
 @RequestScoped
+@PermitAll
 @WebServlet(urlPatterns = "/login")
 public class Login extends HttpServlet {
     private UserRepository userRepository = new UserRepositoryImpl();

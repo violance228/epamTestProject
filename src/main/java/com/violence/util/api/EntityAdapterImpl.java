@@ -1,6 +1,7 @@
 package com.violence.util.api;
 
 import com.sun.rowset.JdbcRowSetImpl;
+import com.violence.entity.DomainObject;
 import com.violence.util.DataSourceConn;
 import com.violence.util.api.annotation.ReflectionApi;
 import com.violence.util.api.annotation.ReflectionApiImpl;
@@ -133,9 +134,10 @@ public class EntityAdapterImpl implements EntityAdapter {
         return resultSet;
     }
 
-    public void insert(String sql) {
+    public void insert(Object o) {
         try {
-
+            String sql = "INSERT INTO " + reflectionApi.getTableNameByClass(o.getClass()) + " ( " + reflectionApi.getObjectFieldsName(o) + " ) " +
+                    "VALUES ( " + reflectionApi.getObjectFieldsValue(o) + " );";
             DataSourceConn.getPostgreSqlConnection().prepareStatement(sql).execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -203,9 +205,22 @@ public class EntityAdapterImpl implements EntityAdapter {
 
     public <T> String prepareObjectToInsert(T object) {
         StringBuilder result = new StringBuilder();
-        result.append(object.toString());
-        result.append(" ,");
-        return result.delete(result.length() - 2, result.length()).append(";").toString();
+        result.append("(");
+        if (object instanceof DomainObject) {
+            result.append(((DomainObject) object).getFieldVsValue());
+            result.append(" ,");
+        }
+        return result.delete(result.length() - 2, result.length()).append(")").toString();
+    }
+
+    public <T> String prepareObjectToInsertr(T object) {
+        StringBuilder result = new StringBuilder();
+        result.append("(");
+        if (object instanceof DomainObject) {
+            result.append(((DomainObject) object).getFieldVsValue());
+            result.append(" ,");
+        }
+        return result.delete(result.length() - 2, result.length()).append(")").toString();
     }
 
 //    private Object gee(Class aClass) {

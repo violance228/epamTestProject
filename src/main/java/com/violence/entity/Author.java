@@ -10,9 +10,9 @@ import java.util.Set;
 public class Author implements DomainObject<Author> {
     @Column("author_id")
     private Long id;
-    @Column("author_id")
+    @Column("author_name")
     private String name;
-    @Column("author_id")
+    @Column("author_surname")
     private String surname;
     @Column("country")
     private String country;

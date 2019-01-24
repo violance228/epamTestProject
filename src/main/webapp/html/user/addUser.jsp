@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <%@include file="../fragments/navbar.jspf"%>
     </nav>
-    <form action="/SecurityExample_war/registration" method="post">
+    <form action="/registration" method="post">
         <table class="table">
             <tbody>
                 <tr>

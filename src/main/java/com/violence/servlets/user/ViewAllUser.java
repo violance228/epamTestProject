@@ -5,6 +5,7 @@ import com.violence.repository.UserRepository;
 import com.violence.repository.UserRepositoryImpl;
 import com.violence.util.Utils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.*;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Named
 @RequestScoped
+@RolesAllowed({"user", "admin"})
 @WebServlet(urlPatterns = "/getAllUsers")
 public class ViewAllUser extends HttpServlet {
 

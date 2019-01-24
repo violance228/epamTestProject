@@ -17,12 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * created by user violence
- * created on 15.01.2019
- * class created for project SecurityExample
- */
-
 @Named
 @RequestScoped
 @WebServlet(urlPatterns = "/getAllCatalogs")

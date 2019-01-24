@@ -19,6 +19,7 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Override
     public void save(AuthorBooks authorBooks) {
+        entityAdapter.insert(authorBooks);
     }
 
     @Override

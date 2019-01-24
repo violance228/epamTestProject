@@ -1,5 +1,6 @@
 package com.violence.util.api.annotation;
 
+import com.violence.entity.DomainObject;
 import com.violence.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,12 +101,78 @@ public class ReflectionApiImpl implements ReflectionApi {
             } else if (field.getType() == Date.class) {
                 field.setAccessible(true);
                 field.set(object, Utils.dateFromHtml.parse(String.valueOf(param)));
+            } else if (field.getType() == Integer.class) {
+                field.setAccessible(true);
+                field.set(object, Integer.valueOf(param.toString()));
             } else {
                 field.set(object, null);
             }
         } catch (IllegalAccessException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public <T> String getObjectFieldsName(T object) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            Column annotation = field.getAnnotation(Column.class);
+            if (annotation != null) {
+                stringBuilder.append(annotation.value());
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length()).toString();
+    }
+
+    public <T> String getObjectFieldsValue(T object) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getAnnotation(Column.class) != null) {
+                stringBuilder.append("\'");
+                stringBuilder.append(getFieldValue(field, object));
+                stringBuilder.append("\'");
+                stringBuilder.append(",");
+            }
+        }
+        return stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length()).toString();
+    }
+
+    private <T> String getFieldValue(Field field, Object object) {
+        String result = "";
+        field.setAccessible(true);
+        try {
+            if (field.getType() ==  Long.class) {
+                result = String.valueOf(field.get(object));
+            } else if (field.getType() ==  String.class) {
+                result = field.get(object).toString();
+            } else if (field.getType() == Integer.class){
+                result = String.valueOf(field.get(object));
+            } else if(field.getType() == Date.class) {
+                result = String.valueOf(field.get(object));
+            } else if(field.getType() == Boolean.class) {
+                result = String.valueOf(field.get(object));
+            } else {
+                Object o = field.get(object);
+                Field[] fields = o.getClass().getDeclaredFields();
+                for (Field objField : fields) {
+                    if (objField.getName().contains("id")) {
+                        objField.setAccessible(true);
+                        result = String.valueOf(objField.get(o));
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        field.setAccessible(false);
+        return result;
+    }
+
+    public String getTableNameByClass(Class aClass) {
+        Table table = (Table) aClass.getAnnotation(Table.class);
+        return table != null ? table.tableName() : "";
     }
 
 //    private Set<Object> getSetFormResultSet(Object t, ResultSet resultSet) {

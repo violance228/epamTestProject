@@ -18,8 +18,7 @@ public class CatalogRepositoryImpl implements CatalogRepository {
         if (catalog.getId() == null)
             catalog.setId(getLastRecord().getId()+1);
 
-        String sql = "INSERT INTO catalog (catalog_id, date_from, date_to, user_id, book_id) VALUES " + catalog.getId();
-        entityAdapter.insert(sql);
+        entityAdapter.insert(catalog);
     }
 
     @Override

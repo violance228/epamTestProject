@@ -13,9 +13,10 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public void save(Book book) {
-
-        String sql = "INSERT INTO books (book_id, book_name, size, lang, is_use) VALUES " + book.getId();
-        entityAdapter.insert(sql);
+        if (book.getId() == null)
+            book.setId(getLastRecord().getId()+1);
+        book.setUse(false);
+        entityAdapter.insert(book);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public Book getLastRecord() {
-        String sql = "SELECT * FROM catalog ORDER BY catalog_id DESC LIMIT 1";
+        String sql = "SELECT * FROM books ORDER BY book_id DESC LIMIT 1";
         return (Book) entityAdapter.getObject(Book.class, sql);
     }
 }

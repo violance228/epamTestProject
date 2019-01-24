@@ -16,9 +16,8 @@ public class UserRepositoryImpl implements UserRepository {
     public void save(User user) {
         if (user.getId() == null)
             user.setId(getLastRecord().getId()+1);
-
-        String sql = "INSERT INTO users (user_id, user_name, user_surname, login, password, email, phone) VALUES " + entityAdapter.prepareObjectToInsert(user);
-        entityAdapter.insert(sql);
+        user.setRole("user");
+        entityAdapter.insert(user);
     }
 
     @Override

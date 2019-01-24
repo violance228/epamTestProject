@@ -1,11 +1,17 @@
 package com.violence.entity;
 
+import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Table;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+@Table(tableName = "author_book")
 public class AuthorBooks implements DomainObject<AuthorBooks> {
+    @Column(value = "author_book_author_id")
     private Long authorId;
+    @Column(value = "author_book_book_id")
     private Long bookId;
 
     public Long getAuthorId() {

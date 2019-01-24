@@ -19,12 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * created by user violence
- * created on 23.01.2019
- * class created for project SecurityExample
- */
-
 @Named
 @RequestScoped
 @WebServlet(urlPatterns = "/addCatalog")
@@ -44,6 +38,9 @@ public class AddCatalog extends HttpServlet {
             req.setAttribute("books", books);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/catalog/addCatalog.jsp");
             requestDispatcher.forward(req, resp);
+        } else {
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login");
+            requestDispatcher.forward(req, resp);
         }
     }
 
@@ -56,7 +53,7 @@ public class AddCatalog extends HttpServlet {
             catalogRepository.save(catalog);
             req.setAttribute("catalog", catalog);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/getCatalog");
-            requestDispatcher.include(req, resp);
+            requestDispatcher.forward(req, resp);
         }
     }
 }

@@ -14,12 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * created by user violence
- * created on 23.01.2019
- * class created for project SecurityExample
- */
-
 @Named
 @RequestScoped
 @WebServlet(urlPatterns = "/personalInform")

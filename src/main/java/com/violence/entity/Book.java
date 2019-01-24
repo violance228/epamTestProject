@@ -3,10 +3,12 @@ package com.violence.entity;
 import com.violence.repository.AuthorBooksRepositoryImpl;
 import com.violence.util.api.annotation.Column;
 import com.violence.util.api.annotation.Contact;
+import com.violence.util.api.annotation.Table;
 
 import java.util.Objects;
 import java.util.Set;
 
+@Table(tableName = "books")
 public class Book implements DomainObject<Book> {
     @Column("book_id")
     private Long id;
