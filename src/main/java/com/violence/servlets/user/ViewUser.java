@@ -3,6 +3,7 @@ package com.violence.servlets.user;
 import com.violence.entity.User;
 import com.violence.repository.UserRepository;
 import com.violence.repository.UserRepositoryImpl;
+import com.violence.util.Utils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -23,12 +24,12 @@ public class ViewUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        Long userId = Long.valueOf(req.getSession().getAttribute("user_id").toString());
-        String userRole = req.getSession().getAttribute("user_role").toString();
+        Long userId = Utils.getUserIdBySession(req.getSession());
+        String userRole = Utils.getUserRoleBySession(req);
         if (userRole != null && userRole.equals("admin") || userId.equals(Long.valueOf(req.getAttribute("user_id").toString()))) {
-            User user = userRepository.getById(Long.valueOf(req.getAttribute("user_id").toString()));
+            User user = userRepository.getById(Utils.getLongParamFromReq(req, "user_id"));
             req.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/user/viewUser.jsp");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/user/trackUser.jsp");
             requestDispatcher.forward(req, resp);
         } else if (userId == null) {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/user/login.jsp");

@@ -11,7 +11,9 @@ import java.lang.annotation.Target;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
@@ -35,19 +37,19 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
     public AuthorBooks getById(Long id) {
         String sql = "SELECT" +
                 "authors.* " +
-                "author_books.* " +
+                "author_book.* " +
                 "books.* " +
                 "FROM " +
                 "authors " +
-                "INNER JOIN author_books ON author_books.author_id = authors.author_id " +
-                "INNER JOIN books ON author_books.book_id = books.book_id" +
-                "WHERE author_books.author_id = ?";
+                "INNER JOIN author_books ON author_book.author_id = authors.author_id " +
+                "INNER JOIN books ON author_book.book_id = books.book_id" +
+                "WHERE author_book.author_id = ?";
         return (AuthorBooks) entityAdapter.getObject(AuthorBooks.class, sql, id);
     }
 
     @Column("author_id")
     @Override
-    public ResultSet getByAuthorId(Long id) {
+    public ResultSet getRSByAuthorId(Long id) {
         String sql = "SELECT " +
                 "authors.*, " +
                 "books.* " +
@@ -61,7 +63,7 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Column("book_id")
     @Override
-    public ResultSet getByBookId(Long id) {
+    public ResultSet getRSByBookId(Long id) {
         String sql = "SELECT" +
                 "authors.* " +
                 "books.* " +
@@ -72,6 +74,30 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
                 "WHERE author_books.book_id = " + id + " ";
 
         return entityAdapter.getResultSet(sql);
+    }
+
+    @Override
+    public List<AuthorBooks> getAuthorBookListByAuthorId(Long authorId) {
+        String sql = "SELECT " +
+                "author_book.* " +
+                "FROM " +
+                "author_book " +
+                "WHERE author_book.author_book_author_id = ?";
+        Map<Integer, Long> map = new HashMap<>();
+        map.put(1, authorId);
+        return (List<AuthorBooks>) entityAdapter.getListObject(sql, AuthorBooks.class, map);
+    }
+
+    @Override
+    public List<AuthorBooks> getAuthorBookListByBookId(Long bookId) {
+        String sql = "SELECT " +
+                "author_book.* " +
+                "FROM " +
+                "author_book " +
+                "WHERE author_book.author_book_book_id = ?";
+        Map<Integer, Long> map = new HashMap<>();
+        map.put(1, bookId);
+        return (List<AuthorBooks>) entityAdapter.getListObject(sql, AuthorBooks.class, map);
     }
 
     @Override

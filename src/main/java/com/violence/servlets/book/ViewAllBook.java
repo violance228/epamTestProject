@@ -3,7 +3,6 @@ package com.violence.servlets.book;
 import com.violence.entity.Book;
 import com.violence.repository.BookRepository;
 import com.violence.repository.BookRepositoryImpl;
-import com.violence.util.Utils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -25,14 +24,9 @@ public class ViewAllBook extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (Utils.getUserRoleBySession(req).equals("admin")) {
             List<Book> books  = bookRepository.getAll();
             req.setAttribute("books", books);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/book/getAllBook.jsp");
             requestDispatcher.forward(req, resp);
-        } else {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login");
-            requestDispatcher.include(req, resp);
-        }
     }
 }

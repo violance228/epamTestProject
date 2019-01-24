@@ -23,8 +23,8 @@
             <td>User</td>
             <td>
                 <select name="user">
-                    <c:forEach items="${users}" var="user">
-                        <option value="${user.id}">${user.name} ${user.surname}</option>
+                    <c:forEach items="${users}" var="author">
+                        <option value="${author.id}">${author.name} ${author.surname}</option>
                     </c:forEach>
                 </select>
             </td>

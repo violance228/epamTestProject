@@ -1,15 +1,21 @@
 package com.violence.repository;
 
+import com.violence.entity.Author;
+import com.violence.entity.AuthorBooks;
 import com.violence.entity.Book;
 import com.violence.entity.Catalog;
 import com.violence.util.api.EntityAdapter;
 import com.violence.util.api.EntityAdapterImpl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BookRepositoryImpl implements BookRepository {
 
     private EntityAdapter entityAdapter = new EntityAdapterImpl();
+    private AuthorBooksRepository authorBooksRepository = new AuthorBooksRepositoryImpl();
+    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
 
     @Override
     public void save(Book book) {
@@ -35,16 +41,17 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Book getById(Long id) {
         String sql = "SELECT " +
-                "books.*, " +
-                "author_book.*, " +
-                "authors.* " +
+                "books.* " +
                 "FROM " +
                 "books " +
-                "INNER JOIN author_book ON author_book.author_book_book_id = books.book_id " +
-                "INNER JOIN authors ON author_book.author_book_author_id = authors.author_id " +
                 "WHERE books.book_id = ?";
-        
-        return (Book) entityAdapter.getObject(Book.class, sql, id);
+        Book book = (Book) entityAdapter.getObject(Book.class, sql, id);
+        List<AuthorBooks> authorBooks = authorBooksRepository.getAuthorBookListByBookId(book.getId());
+        Set<Author> authorSet = new HashSet<>();
+        for (AuthorBooks authorBook : authorBooks)
+            authorSet.add(authorRepository.getById(authorBook.getAuthorId()));
+        book.setAuthors(authorSet);
+        return book;
     }
 
     @Override

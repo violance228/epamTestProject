@@ -27,9 +27,9 @@
     <tbody>
         <c:forEach items="${catalogs}" var="catalog">
             <tr>
-                <td>${catalog.id}</td>
-                <td>${catalog.user.login}</td>
-                <td>${catalog.book.name}</td>
+                <td><a href="/getCatalog?catalog_id=${catalog.id}">${catalog.id}</a></td>
+                <td><a href="/viewUser?user_id=${catalog.user.id}">${catalog.user.login}</a></td>
+                <td><a href="/getBook?book_id=${catalog.book.id}">${catalog.book.name}</a></td>
                 <td>${catalog.dateFrom}</td>
                 <td>${catalog.dateTo}</td>
             </tr>

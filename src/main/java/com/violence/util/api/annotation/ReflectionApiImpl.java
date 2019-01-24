@@ -1,6 +1,5 @@
 package com.violence.util.api.annotation;
 
-import com.violence.entity.DomainObject;
 import com.violence.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,14 +42,13 @@ public class ReflectionApiImpl implements ReflectionApi {
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        Long id = null;
         for (Field field : fields) {
             Column annotation = field.getAnnotation(Column.class);
+//            Contact contact = field.getAnnotation(Contact.class);
             if (annotation != null) {
                 try {
                     field.setAccessible(true);
                     if (field.getType() == Long.class) {
-                        id = resultSet.getLong(annotation.value());
                         field.set(object, resultSet.getLong(annotation.value()));
                     } else if (field.getType() == String.class) {
                         field.set(object, resultSet.getString(annotation.value()));
@@ -71,6 +69,12 @@ public class ReflectionApiImpl implements ReflectionApi {
                     e.printStackTrace();
                 }
             }
+//            else if (contact != null) {
+//                List<Object> objects = (List<Object>) getListObject(contact.queryExecuteClass(), resultSet);
+//                for (Object o : objects) {
+//
+//                }
+//            }
         } return object;
     }
 
@@ -92,21 +96,19 @@ public class ReflectionApiImpl implements ReflectionApi {
 
     private void setFieldFromRequest(Field field, Object object, Object param) {
         try {
+            field.setAccessible(true);
             if (field.getType() == Long.class) {
-                field.setAccessible(true);
                 field.set(object, Long.valueOf(param.toString()));
             } else if(field.getType() == String.class) {
-                field.setAccessible(true);
                 field.set(object, String.valueOf(param));
             } else if (field.getType() == Date.class) {
-                field.setAccessible(true);
                 field.set(object, Utils.dateFromHtml.parse(String.valueOf(param)));
             } else if (field.getType() == Integer.class) {
-                field.setAccessible(true);
                 field.set(object, Integer.valueOf(param.toString()));
             } else {
                 field.set(object, null);
             }
+            field.setAccessible(false);
         } catch (IllegalAccessException | ParseException e) {
             e.printStackTrace();
         }

@@ -1,20 +1,24 @@
 package com.violence.repository;
 
 import com.violence.entity.Author;
+import com.violence.entity.AuthorBooks;
 import com.violence.entity.Book;
 import com.violence.util.api.EntityAdapter;
 import com.violence.util.api.EntityAdapterImpl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AuthorRepositoryImpl implements AuthorRepository {
 
     private EntityAdapter entityAdapter = new EntityAdapterImpl();
+    private AuthorBooksRepository authorBooksRepository = new AuthorBooksRepositoryImpl();
 
     @Override
     public void save(Author author) {
-        String sql = "INSERT INTO authors (author_id, author_name, author_surname, country) VALUES " + author.toString();
-        entityAdapter.insert(sql);
+        author.setId(getLastRecord().getId()+1);
+        entityAdapter.insert(author);
     }
 
     @Override
@@ -34,7 +38,16 @@ public class AuthorRepositoryImpl implements AuthorRepository {
                 "authors.* " +
                 "FROM authors " +
                 "WHERE authors.author_id = ?";
-        return (Author) entityAdapter.getObject(Author.class, sql, id);
+        Author author = (Author) entityAdapter.getObject(Author.class, sql, id);
+        List<AuthorBooks> authorBooks = authorBooksRepository.getAuthorBookListByAuthorId(author.getId());
+        Set<Book> bookSet = new HashSet<>();
+        for (AuthorBooks authorBook : authorBooks) {
+            bookSet.add((Book) entityAdapter.getObject(Book.class,
+                    "SELECT books.* FROM books WHERE books.book_id = ?",
+                    authorBook.getBookId()));
+        }
+        author.setBooks(bookSet);
+        return author;
     }
 
     @Override

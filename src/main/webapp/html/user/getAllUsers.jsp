@@ -25,13 +25,13 @@
         <td>Phone</td>
     </thead>
     <tbody>
-    <c:forEach items="${users}" var="user">
+    <c:forEach items="${users}" var="author">
         <tr>
-            <td>${user.login}</td>
-            <td>${user.name}</td>
-            <td>${user.surname}</td>
-            <td>${user.email}</td>
-            <td>${user.phone}</td>
+            <td><a href="/viewUser?user_id=${author.id}">${author.login}</a></td>
+            <td>${author.name}</td>
+            <td>${author.surname}</td>
+            <td>${author.email}</td>
+            <td>${author.phone}</td>
         </tr>
     </c:forEach>
     </tbody>
