@@ -23,10 +23,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
 
     @Override
     public void edit(Author author) {
-        String sql = "UPDATE users" +
-                "SET " + author.getFieldVsValue() +
-                "WHERE CustomerID = ?";
-        entityAdapter.update(sql, author.getId());
+        entityAdapter.update(author);
     }
 
     @Override
@@ -54,6 +51,14 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     public List<Author> getAll() {
         String sql = "SELECT * " +
                     "FROM authors ";
+        return (List<Author>) entityAdapter.getListObject(Author.class, sql);
+    }
+
+    @Override
+    public List<Author> getAll(int limit, int offset) {
+        String sql = "SELECT * FROM authors " +
+                "ORDER BY author_id ASC LIMIT " + limit + " OFFSET( " +
+                offset + ")";
         return (List<Author>) entityAdapter.getListObject(Author.class, sql);
     }
 

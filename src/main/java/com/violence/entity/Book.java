@@ -3,13 +3,15 @@ package com.violence.entity;
 import com.violence.repository.AuthorBooksRepositoryImpl;
 import com.violence.util.api.annotation.Column;
 import com.violence.util.api.annotation.Contact;
+import com.violence.util.api.annotation.Id;
 import com.violence.util.api.annotation.Table;
 
 import java.util.Objects;
 import java.util.Set;
 
 @Table(tableName = "books")
-public class Book implements DomainObject<Book> {
+public class Book implements DomainObject {
+    @Id
     @Column("book_id")
     private Long id;
     @Column("book_name")
@@ -104,27 +106,4 @@ public class Book implements DomainObject<Book> {
                 lang + "\', \'" +
                 isUse +  "\' )";
     }
-
-    @Override
-    public String getFieldVsValue() {
-        return  "book_id = '" + id + '\'' +
-                ", book_name = '" + name + '\'' +
-                ", size = " + size +
-                ", lang = '" + lang + '\'' +
-                ", is_use = '" + isUse + '\'';
-    }
-
-//    @Override
-//    public Book getObject(ResultSet resultSet) throws SQLException {
-//        Book book = new Book();
-//
-//        book.setId(resultSet.getLong("book_id"));
-//        book.setName(resultSet.getString("book_name"));
-//        book.setSize(resultSet.getInt("size"));
-//        book.setLang(resultSet.getString("lang"));
-//        book.setUse(resultSet.getBoolean("is_use"));
-////        book.setAuthors(new EntityAdapterImpl().getSetObjectFromResultSet(new Author(), "author_book_book_id" , book.getId(), resultSet));
-//
-//        return book;
-//    }
 }

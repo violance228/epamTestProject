@@ -1,13 +1,13 @@
 package com.violence.entity;
 
-import com.violence.repository.AuthorBooksRepositoryImpl;
 import com.violence.util.api.annotation.Column;
-import com.violence.util.api.annotation.Contact;
+import com.violence.util.api.annotation.Id;
 
 import java.util.Objects;
 import java.util.Set;
 
-public class Author implements DomainObject<Author> {
+public class Author implements DomainObject {
+    @Id
     @Column("author_id")
     private Long id;
     @Column("author_name")
@@ -16,8 +16,6 @@ public class Author implements DomainObject<Author> {
     private String surname;
     @Column("country")
     private String country;
-//    @Column(value = "book_id")
-//    @Contact(value = "book_id", queryExecuteClass = AuthorBooksRepositoryImpl.class)
     private Set<Book> books;
 
     public Author(Long id, String name, String surname, String country) {
@@ -93,23 +91,4 @@ public class Author implements DomainObject<Author> {
                 surname + "\', \'" +
                 country + "\' )";
     }
-    @Override
-    public String getFieldVsValue() {
-        return  "id= '" + id + '\'' +
-                ", name= '" + name + '\'' +
-                ", surname= '" + surname + '\'' +
-                ", country= '" + country + '\'';
-    }
-
-//    @Override
-//    public Author getObject(ResultSet resultSet) throws SQLException {
-//        Author author = new Author();
-//
-//        author.setId(resultSet.getLong("author_id"));
-//        author.setName(resultSet.getString("author_name"));
-//        author.setSurname(resultSet.getString("author_surname"));
-//        author.setCountry(resultSet.getString("country"));
-//
-//        return author;
-//    }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/getAllBooks")
 public class ViewAllBook extends HttpServlet {
 
-    private BookRepository bookRepository = new BookRepositoryImpl();
+    private static final BookRepository bookRepository = new BookRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

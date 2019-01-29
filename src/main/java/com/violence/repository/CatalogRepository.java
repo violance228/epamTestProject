@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CatalogRepository extends BaseMethods<Catalog> {
     List<Catalog> getAllCatalogByUserId(Long userId);
+    List<Catalog> getAllCatalogByBookId(Long bookId);
+    Integer getSize();
 }

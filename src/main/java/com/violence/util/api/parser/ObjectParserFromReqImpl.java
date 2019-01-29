@@ -1,7 +1,7 @@
 package com.violence.util.api.parser;
 
-import com.violence.util.api.annotation.ReflectionApi;
-import com.violence.util.api.annotation.ReflectionApiImpl;
+import com.violence.util.api.reflectionApi.ReflectionApi;
+import com.violence.util.api.reflectionApi.ReflectionApiImpl;
 
 import javax.servlet.http.HttpServletRequest;
 

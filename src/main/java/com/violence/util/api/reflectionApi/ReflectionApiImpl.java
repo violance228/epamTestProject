@@ -1,6 +1,10 @@
-package com.violence.util.api.annotation;
+package com.violence.util.api.reflectionApi;
 
 import com.violence.util.Utils;
+import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Id;
+import com.violence.util.api.annotation.Table;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
@@ -10,6 +14,17 @@ import java.text.ParseException;
 import java.util.*;
 
 public class ReflectionApiImpl implements ReflectionApi {
+
+    private static final Logger logger = Logger.getLogger(ReflectionApiImpl.class);
+
+
+    /**
+     *
+     * @param aClass
+     * @param resultSet
+     * @return object class transmitted first param
+     */
+
     public Object getObject(Class aClass, ResultSet resultSet) {
         Object object = null;
         try {
@@ -18,10 +33,16 @@ public class ReflectionApiImpl implements ReflectionApi {
                 object = getObjectFromResultSet(fields, aClass, resultSet);
             return object;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("sql exception in method getObject reflApi: " + e.getMessage());
         }
         return object;
     }
+
+    /**
+     * @param aClass
+     * @param resultSet
+     * @return collection objects transmitted first param
+     */
 
     public Collection getListObject(Class aClass, ResultSet resultSet) {
         List<Object> objectList = new ArrayList<>();
@@ -30,23 +51,25 @@ public class ReflectionApiImpl implements ReflectionApi {
             while (resultSet.next())
                 objectList.add(getObjectFromResultSet(fields, aClass, resultSet));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("sql exception in method getListObject reflApi: " + e.getMessage());
         }
         return objectList;
     }
+
+    /**
+     * @param fields
+     * @param aClass
+     * @param resultSet
+     * @return loop resultSet and fills in fields object class transmitted second param, and return finished obj
+     */
 
     private Object getObjectFromResultSet(Field[] fields, Class aClass, ResultSet resultSet) {
         Object object = null;
         try {
             object = aClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        for (Field field : fields) {
-            Column annotation = field.getAnnotation(Column.class);
-//            Contact contact = field.getAnnotation(Contact.class);
-            if (annotation != null) {
-                try {
+            for (Field field : fields) {
+                Column annotation = field.getAnnotation(Column.class);
+                if (annotation != null) {
                     field.setAccessible(true);
                     if (field.getType() == Long.class) {
                         field.set(object, resultSet.getLong(annotation.value()));
@@ -58,6 +81,8 @@ public class ReflectionApiImpl implements ReflectionApi {
                         field.set(object, resultSet.getDate(annotation.value()));
                     } else if (field.getType() == Integer.class) {
                         field.set(object, resultSet.getInt(annotation.value()));
+                    } else if (field.getType() == int.class) {
+                        field.set(object, resultSet.getInt(annotation.value()));
                     } else {
                         field.set(object, getObjectFromResultSet(
                                 field.getType().getDeclaredFields(),
@@ -65,19 +90,21 @@ public class ReflectionApiImpl implements ReflectionApi {
                                 resultSet)
                         );
                     }
-                } catch (IllegalAccessException | SQLException e) {
-                    e.printStackTrace();
+                } else if (field.getType() == Integer.class) {
+                    field.set(object, resultSet.getInt("count"));
                 }
             }
-//            else if (contact != null) {
-//                List<Object> objects = (List<Object>) getListObject(contact.queryExecuteClass(), resultSet);
-//                for (Object o : objects) {
-//
-//                }
-//            }
-        } return object;
+        } catch (IllegalAccessException | SQLException | InstantiationException e) {
+            logger.info("exception in method getObjectFromResultSet reflApi: " + e.getMessage());
+        }
+        return object;
     }
 
+    /**
+     * @param request, param in request must named like fields in class
+     * @param aClass
+     * @return in loop fill in fields obj and return finished obj
+     */
     public Object getObjectFromRequest(HttpServletRequest request, Class aClass) {
         Object object = null;
         try {
@@ -88,9 +115,8 @@ public class ReflectionApiImpl implements ReflectionApi {
                     setFieldFromRequest(field, object, request.getParameter(field.getName()));
                 }
             }
-            return object;
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            logger.info("exception in method getObjectFromRequest reflApi: " + e.getMessage());
         } return object;
     }
 
@@ -110,10 +136,15 @@ public class ReflectionApiImpl implements ReflectionApi {
             }
             field.setAccessible(false);
         } catch (IllegalAccessException | ParseException e) {
-            e.printStackTrace();
+            logger.info("exception in method setFieldFromRequest reflApi: " + e.getMessage());
         }
     }
 
+    /**
+     * @param object
+     * @param <T>
+     * @return string with name fields, split by dot
+     */
     public <T> String getObjectFieldsName(T object) {
         StringBuilder stringBuilder = new StringBuilder();
         Field[] fields = object.getClass().getDeclaredFields();
@@ -127,7 +158,34 @@ public class ReflectionApiImpl implements ReflectionApi {
         return stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length()).toString();
     }
 
-    public <T> String getObjectFieldsValue(T object) {
+    /**
+     * @param object
+     * @param <T>
+     * @return finished body for sql execute update obj
+     */
+    public <T> String getObjectFieldsValueForUpdate(T object){
+        StringBuilder stringBuilder = new StringBuilder();
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            Column annotation = field.getAnnotation(Column.class);
+            Id id = field.getAnnotation(Id.class);
+            if (annotation != null && id == null) {
+                stringBuilder.append(annotation.value());
+                stringBuilder.append("=");
+                stringBuilder.append("\'");
+                stringBuilder.append(getFieldValue(field, object));
+                stringBuilder.append("\'");
+                stringBuilder.append(",");
+            }
+        } return stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length()).toString();
+    }
+
+    /**
+     * @param object
+     * @param <T>
+     * @return finished body for sql execute insert obj
+     */
+    public <T> String getObjectFieldsValueForInsert(T object) {
         StringBuilder stringBuilder = new StringBuilder();
         Field[] fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -141,7 +199,52 @@ public class ReflectionApiImpl implements ReflectionApi {
         return stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length()).toString();
     }
 
-    private <T> String getFieldValue(Field field, Object object) {
+    /**
+     * @param object
+     * @return field name, field annotate class Id
+     */
+    public String getColumnIdName(Object object) {
+        String result = "";
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getAnnotation(Id.class) != null) {
+                if (field.getAnnotation(Column.class) != null) {
+                    result = field.getAnnotation(Column.class).value();
+                } else {
+                    result = field.getName();
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param object
+     * @return loop object and try to find field annotate class Id, and return value this field
+     */
+    public Long getColumnIdValue(Object object) {
+        Long result = null;
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getAnnotation(Id.class) != null) {
+                try {
+                    field.setAccessible(true);
+                    result = (Long) field.get(object);
+                    field.setAccessible(false);
+                } catch (IllegalAccessException e) {
+                    logger.info("IllegalAccessException in method getColumnIdValue reflApi: " + e.getMessage());
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param field
+     * @param object
+     * @return string value obj field
+     */
+    private String getFieldValue(Field field, Object object) {
         String result = "";
         field.setAccessible(true);
         try {
@@ -159,14 +262,14 @@ public class ReflectionApiImpl implements ReflectionApi {
                 Object o = field.get(object);
                 Field[] fields = o.getClass().getDeclaredFields();
                 for (Field objField : fields) {
-                    if (objField.getName().contains("id")) {
+                    if (objField.getAnnotation(Id.class) != null) {
                         objField.setAccessible(true);
                         result = String.valueOf(objField.get(o));
                     }
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.info("IllegalAccessException in method getFieldValue reflApi: " + e.getMessage());
         }
         field.setAccessible(false);
         return result;
@@ -176,31 +279,4 @@ public class ReflectionApiImpl implements ReflectionApi {
         Table table = (Table) aClass.getAnnotation(Table.class);
         return table != null ? table.tableName() : "";
     }
-
-//    private Set<Object> getSetFormResultSet(Object t, ResultSet resultSet) {
-//        Set<Object> tSet = new HashSet<>();
-//        try {
-//            while (resultSet.next())
-//                tSet.add(getObject(t.getClass(), resultSet));
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return tSet;
-//    }
-
-//    private ResultSet getResultSetFromExecuteClassForSet(Class aClass, String searchParam, Long id) {
-//        ResultSet resultSet = null;
-//        Method[] methods = aClass.getDeclaredMethods();
-//        for (Method method : methods) {
-//            Column annotation = method.getAnnotation(Column.class);
-//            if (annotation != null && annotation.value().contains(searchParam)) {
-//                try {
-//                    resultSet = (ResultSet) method.invoke(aClass.newInstance(), id);
-//                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return resultSet;
-//    }
 }

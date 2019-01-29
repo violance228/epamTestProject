@@ -34,6 +34,11 @@
                 <td>${catalog.dateTo}</td>
             </tr>
         </c:forEach>
+        <tr>
+            <td><a href="/getAllCatalogs?offset=${current-1}">prev</a></td>
+            <td>${current}</td>
+            <td><a href="/getAllCatalogs?limit=20&offset=${current+1}">next</a></td>
+        </tr>
     </tbody>
 </table>
 </body>

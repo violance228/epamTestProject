@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/personalInform")
 public class PersonalInform extends HttpServlet {
 
-    private UserRepository userRepository = new UserRepositoryImpl();
+    private static final UserRepository userRepository = new UserRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

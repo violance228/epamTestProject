@@ -23,7 +23,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/getAllAuthors")
 public class ViewAllAuthor extends HttpServlet {
 
-    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
+    private static final AuthorRepository authorRepository = new AuthorRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

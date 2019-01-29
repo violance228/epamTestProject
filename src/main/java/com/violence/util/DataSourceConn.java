@@ -1,9 +1,12 @@
 package com.violence.util;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 
 public class DataSourceConn {
 
+    private static final Logger logger = Logger.getLogger(DataSourceConn.class);
     private static final String url = "jdbc:postgresql://192.200.100.160:5432/epam_project";
     private static final String user = "postgres";
     private static final String password = "postgres";
@@ -11,26 +14,24 @@ public class DataSourceConn {
     public static Connection getPostgreSqlConnection() {
         Connection connection = null;
         try {
-            Long start = System.currentTimeMillis();
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("connect to DB ----- " + (System.currentTimeMillis() - start));
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.info("can't connect into dataBase, " + e.getCause());
         }
         return connection;
     }
 
-    public static void close(Statement statement, ResultSet resultSet) {
+    public static void close(Statement statement, Connection connection,ResultSet resultSet) {
         try {
             if (resultSet != null)
                 resultSet.close();
-            if (statement.getConnection() != null)
-                statement.getConnection().close();
+            if (connection != null)
+                connection.close();
             if (statement != null)
                 statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("can't close connection into dataBase, " + e.getCause());
         }
     }
 }

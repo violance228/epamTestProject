@@ -23,7 +23,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/getAllUsers")
 public class ViewAllUser extends HttpServlet {
 
-    private UserRepository userRepository = new UserRepositoryImpl();
+    private static final UserRepository userRepository = new UserRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

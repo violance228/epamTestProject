@@ -22,15 +22,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void edit(User user) {
-        String sql = "UPDATE users" +
-                "SET " + user.getFieldVsValue() +
-                "WHERE CustomerID = ?";
-        entityAdapter.update(sql, user.getId());
+        entityAdapter.update(user);
     }
 
     @Override
     public void delete(Long id) {
-
     }
 
     @Override
@@ -64,6 +60,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         String sql = "SELECT * FROM users";
+        return (List<User>) entityAdapter.getListObject(User.class, sql);
+    }
+
+    @Override
+    public List<User> getAll(int limit, int offset) {
+        String sql = "SELECT * FROM users" +
+                "ORDER BY catalog_id ASC LIMIT " + limit + " OFFSET( " +
+                offset + ")";
         return (List<User>) entityAdapter.getListObject(User.class, sql);
     }
 

@@ -6,6 +6,7 @@ import com.violence.repository.AuthorRepositoryImpl;
 import com.violence.util.Utils;
 import com.violence.util.api.parser.ObjectParserFromReq;
 import com.violence.util.api.parser.ObjectParserFromReqImpl;
+import org.apache.log4j.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
@@ -24,14 +25,17 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/addAuthor")
 public class CreateAuthor extends HttpServlet {
 
-    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
-    private ObjectParserFromReq parser = new ObjectParserFromReqImpl();
+    private static final Logger log = Logger.getLogger(CreateAuthor.class);
+
+    private static final AuthorRepository authorRepository = new AuthorRepositoryImpl();
+    private static final ObjectParserFromReq parser = new ObjectParserFromReqImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (Utils.getUserRoleBySession(request).equals("admin")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/html/author/addAuthor.jsp");
             dispatcher.forward(request,response);
+            log.info("user was went in addAuthor controller doGet, userId " + Utils.getUserIdBySession(request.getSession()));
         }
     }
 
@@ -40,6 +44,7 @@ public class CreateAuthor extends HttpServlet {
         if (Utils.getUserRoleBySession(request).equals("admin")) {
             Author author = (Author) parser.getObjectFromRequest(request, Author.class);
             authorRepository.save(author);
+            log.info("user" +  Utils.getUserIdBySession(request.getSession()) + "was save author doPost " + author.getSurname() );
             RequestDispatcher dispatcher = request.getRequestDispatcher("/html/author/addAuthor.jsp");
             dispatcher.forward(request, response);
         }

@@ -1,16 +1,11 @@
 package com.violence.repository;
 
-import com.violence.entity.Author;
 import com.violence.entity.AuthorBooks;
-import com.violence.util.DataSourceConn;
 import com.violence.util.api.EntityAdapter;
 import com.violence.util.api.EntityAdapterImpl;
 import com.violence.util.api.annotation.Column;
 
-import java.lang.annotation.Target;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +21,7 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Override
     public void edit(AuthorBooks authorBooks) {
-
+        entityAdapter.update(authorBooks);
     }
 
     @Override
@@ -102,6 +97,11 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Override
     public List<AuthorBooks> getAll() {
+        return null;
+    }
+
+    @Override
+    public List<AuthorBooks> getAll(int limit, int offset) {
         return null;
     }
 

@@ -1,12 +1,14 @@
 package com.violence.entity;
 
 import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Id;
 import com.violence.util.api.annotation.Table;
 
 import java.util.Objects;
 
 @Table(tableName = "users")
-public class User implements DomainObject<User> {
+public class User implements DomainObject {
+    @Id
     @Column("user_id")
     private Long id;
     @Column("login")
@@ -122,31 +124,4 @@ public class User implements DomainObject<User> {
                 ", role='" + role + '\'' +
                 '}';
     }
-
-    @Override
-    public String getFieldVsValue() {
-        return  "user_id = '" + id + '\'' +
-                ", login = '" + login + '\'' +
-                ", name = '" + name + '\'' +
-                ", surname = '" + surname + '\'' +
-                ", password = '" + password + '\'' +
-                ", email = '" + email + '\'' +
-                ", phone = '" + phone + '\'' +
-                ", role = '" + role + '\'';
-    }
-
-//    @Override
-//    public User getObject(ResultSet resultSet) throws SQLException {
-//        User user = new User();
-//
-//        user.setId(resultSet.getLong("user_id"));
-//        user.setName(resultSet.getString("user_name"));
-//        user.setLogin(resultSet.getString("login"));
-//        user.setPassword(resultSet.getString("password"));
-//        user.setEmail(resultSet.getString("email"));
-//        user.setPhone(resultSet.getString("phone"));
-//        user.setSurname(resultSet.getString("user_surname"));
-//
-//        return user;
-//    }
 }

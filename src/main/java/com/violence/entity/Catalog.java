@@ -1,15 +1,15 @@
 package com.violence.entity;
 
 import com.violence.util.api.annotation.Column;
+import com.violence.util.api.annotation.Id;
 import com.violence.util.api.annotation.Table;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
 @Table(tableName = "catalog")
-public class Catalog implements DomainObject<Catalog> {
+public class Catalog implements DomainObject {
+    @Id
     @Column("catalog_id")
     private Long id;
     @Column("date_from")
@@ -86,27 +86,4 @@ public class Catalog implements DomainObject<Catalog> {
                 user.getId() + "\', \'" +
                 book.getId() +  "\' )";
     }
-
-    @Override
-    public String getFieldVsValue() {
-        return  "catalog_id = '" + id + '\'' +
-                ", date_from = '" + dateFrom + '\'' +
-                ", date_to = '" + dateTo + '\'' +
-                ", user_id = '" + user.getId() + '\'' +
-                ", book_id = '" + book.getId() + '\'';
-    }
-
-//    @Override
-//    public Catalog getObject(ResultSet resultSet) throws SQLException {
-//        Catalog catalog = new Catalog();
-//
-//        catalog.setId(resultSet.getLong("catalog_id"));
-//        catalog.setDateFrom(resultSet.getDate("date_from"));
-//        catalog.setDateTo(resultSet.getDate("date_to"));
-//        catalog.setBook(new Book().getObject(resultSet));
-//        catalog.setUser(new User().getObject(resultSet));
-//
-//        return catalog;
-//    }
-
 }

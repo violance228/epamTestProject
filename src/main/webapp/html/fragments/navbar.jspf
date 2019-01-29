@@ -9,8 +9,8 @@
                 Catalog
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="http://localhost:9090/getAllCatalogs">All catalogs</a>
-                <a class="dropdown-item" href="http://localhost:9090/addCatalog">Create catalog</a>
+                <a class="dropdown-item" href="/getAllCatalogs">All catalogs</a>
+                <a class="dropdown-item" href="/addCatalog">Create catalog</a>
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -18,8 +18,8 @@
                 Book
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="http://localhost:9090/getAllBooks">All books</a>
-                <a class="dropdown-item" href="http://localhost:9090/createBook">Create book</a>
+                <a class="dropdown-item" href="/getAllBooks">All books</a>
+                <a class="dropdown-item" href="/createBook">Create book</a>
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -27,8 +27,8 @@
                 Author
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="http://localhost:9090/getAllAuthors">All authors</a>
-                <a class="dropdown-item" href="http://localhost:9090/addAuthor">Create author</a>
+                <a class="dropdown-item" href="/getAllAuthors">All authors</a>
+                <a class="dropdown-item" href="/addAuthor">Create author</a>
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -36,10 +36,10 @@
                Users
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="http://localhost:9090/getAllUsers">All users</a>
-                <a class="dropdown-item" href="http://localhost:9090/registration">Registration</a>
-                <a class="dropdown-item" href="http://localhost:9090/personalInform">Persona inform</a>
-                <a class="dropdown-item" href="#">Log out</a>
+                <a class="dropdown-item" href="/getAllUsers">All users</a>
+                <a class="dropdown-item" href="/registration">Registration</a>
+                <a class="dropdown-item" href="/personalInform">Persona inform</a>
+                <a class="dropdown-item" href="/logout">Log out</a>
             </div>
         </li>
     </ul>

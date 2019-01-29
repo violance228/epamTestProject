@@ -22,7 +22,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/getAuthor")
 public class ViewAuthor extends HttpServlet {
 
-    private AuthorRepository authorRepository = new AuthorRepositoryImpl();
+    private static final AuthorRepository authorRepository = new AuthorRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

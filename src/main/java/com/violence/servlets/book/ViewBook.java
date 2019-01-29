@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/getBook")
 public class ViewBook extends HttpServlet {
 
-    private BookRepository bookRepository = new BookRepositoryImpl();
+    private static final BookRepository bookRepository = new BookRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

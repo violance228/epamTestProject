@@ -3,6 +3,8 @@ package com.violence.servlets.user;
 import com.violence.entity.User;
 import com.violence.repository.UserRepository;
 import com.violence.repository.UserRepositoryImpl;
+import com.violence.util.Utils;
+import org.apache.log4j.Logger;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
@@ -20,7 +22,8 @@ import java.io.IOException;
 @PermitAll
 @WebServlet(urlPatterns = "/login")
 public class Login extends HttpServlet {
-    private UserRepository userRepository = new UserRepositoryImpl();
+    private static final UserRepository userRepository = new UserRepositoryImpl();
+    private static final Logger logger = Logger.getLogger(Login.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,10 +40,12 @@ public class Login extends HttpServlet {
             request.setAttribute("user", user);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/html/user/trackUser.jsp");
             requestDispatcher.forward(request, response);
+            logger.info("user " + Utils.getUserIdBySession(request.getSession()) + " was login, user role " + user.getRole());
         } else {
             request.setAttribute("error", "login ar password incorrect");
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/html/user/login.jsp");
             requestDispatcher.forward(request, response);
+            logger.info("user wrote incorrect login or password");
         }
     }
 }
