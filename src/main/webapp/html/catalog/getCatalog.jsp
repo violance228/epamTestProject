@@ -37,6 +37,13 @@
             <td>Date to</td>
             <td>${catalog.dateTo}</td>
         </tr>
+        <tr>
+            <td>
+                <a href="/editCatalog?catalog_id=${catalog.id}">
+                    <button>edit</button>
+                </a>
+            </td>
+        </tr>
     </tbody>
 </table>
 </body>

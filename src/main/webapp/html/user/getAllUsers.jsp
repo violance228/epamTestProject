@@ -36,8 +36,5 @@
     </c:forEach>
     </tbody>
 </table>
-<div>
-    <%@include file="../fragments/footer.jspf"%>
-</div>
 </body>
 </html>
