@@ -97,7 +97,7 @@ public class AuthorBooksRepositoryImpl implements AuthorBooksRepository {
 
     @Override
     public List<AuthorBooks> getAll() {
-        return null;
+        return  (List<AuthorBooks>) entityAdapter.getListObject(AuthorBooks.class, "SELECT * from author_book");
     }
 
     @Override
