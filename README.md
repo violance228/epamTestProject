@@ -13,5 +13,12 @@
 3.  Download postgres -> sudo apt-get install postgresql postgresql-client
 4.  Create db with name library and restore file library.sql from git repo
 5.  Setting tomcat ${catalina.home}/conf/tomcat-users.xml -> set user and userRole
-6.  If tomcat can't start and write error setup jdk or jre, ${catalina.home}/conf/startup. open edit and under word setlocal
+6.  If tomcat can't start and write error setup jdk or jre, ${catalina.home}/bin/startup. open edit and under word setlocal
 write path jdk and jre without bin
+
+Start
+
+1.  Start tomcat ${catalina.home}/bin/startup.
+2.  Start postgres
+3.  copy war file into ${catalina.home}/webapps/
+4.  tomcat start in 8080 port
